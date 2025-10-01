@@ -10,7 +10,7 @@ void Cmd_create(char *trozos[]) {
         fprintf(stderr, "create: missing operand\n");
         return;
     }
-//test
+
     if (strcmp(trozos[1], "-f") == 0) {
         if (trozos[2] == NULL) {
             fprintf(stderr, "create: missing file name\n");
