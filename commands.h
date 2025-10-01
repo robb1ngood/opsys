@@ -11,9 +11,6 @@
 #include "list.h"
 
 void Cmd_authors     (char * tr[]);
-void Cmd_create      (char * tr[]);
-void Cmd_erase       (char * tr[]);
-void Cmd_writestr    (char *tr[], tFileList *list);
 void Cmd_getpid      (char * tr[]);
 void Cmd_chdir       (char * tr[]);
 void Cmd_getcwd      (char * tr[]);
@@ -27,5 +24,8 @@ void Cmd_listopen    (char * tr[], tFileList *list);
 void Cmd_infosys     (char * tr[]);
 void Cmd_help        (char * tr[]);
 void Cmd_quit        (char * tr[]);
+void Cmd_create      (char * tr[]);
+void Cmd_erase       (char * tr[]);
+void Cmd_writestr    (char *tr[], tFileList *list);
 
 #endif //OS_FILE_H

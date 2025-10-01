@@ -37,9 +37,6 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl) {
     trocearCadena(current, trozos);
 
     if (!strcmp(trozos[0], "authors"))  Cmd_authors     (trozos);
-    if (!strcmp(trozos[0], "create"))   Cmd_create      (trozos);
-    if (!strcmp(trozos[0], "erase"))    Cmd_erase       (trozos);
-    if (!strcmp(trozos[0], "writestr")) Cmd_writestr    (trozos, fl);
     if (!strcmp(trozos[0], "getpid"))   Cmd_getpid      (trozos);
     if (!strcmp(trozos[0], "chdir"))    Cmd_chdir       (trozos);
     if (!strcmp(trozos[0], "getcwd"))   Cmd_getcwd      (trozos);
@@ -55,4 +52,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl) {
     if (!strcmp(trozos[0], "quit"))     Cmd_quit        (trozos);
     if (!strcmp(trozos[0], "exit"))     Cmd_quit        (trozos);
     if (!strcmp(trozos[0], "bye"))      Cmd_quit        (trozos);
+    if (!strcmp(trozos[0], "create"))   Cmd_create      (trozos);
+    if (!strcmp(trozos[0], "erase"))    Cmd_erase       (trozos);
+    if (!strcmp(trozos[0], "writestr")) Cmd_writestr    (trozos, fl);
 }

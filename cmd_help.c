@@ -9,15 +9,6 @@ void Cmd_help(char *tr[]) {
 	if (!strcmp(tr[1], "authors"))  printf("%s\t%s\n",
 		"authors", 	"Prints the names and logins of the program authors. authors -l prints only the logins and authors -n prints only the names"
 		);
-
-	if (!strcmp(tr[1], "create"))  printf("%s\t%s\n\t%s\t%s\n", // \t = tab and \n = new line and %s = string
-		"create -f nam", 	"Creates a file of name 'nam'.",
-		"create nam",	"Creates a directory of name 'nam'."
-		);
-
-	if (!strcmp(tr[1], "erase"))  printf("%s\t%s\n",
-		"erase", 	"Deletes files and/or empty directories, named n1, n2 ..."
-		);
     
 	if (!strcmp(tr[1], "getpid"))   printf("%s\t%s\n\t%s\t%s\n",
 		"getpid", 	"Prints the pid of the process executing the shell.", 
@@ -87,5 +78,18 @@ void Cmd_help(char *tr[]) {
 	
     if (!strcmp(tr[1], "bye"))      printf("%s\t%s\n",
 		"bye", 	"Ends the shell"
+		);
+
+	if (!strcmp(tr[1], "create"))  printf("%s\t%s\n%s\t%s\n", // \t = tab and \n = new line and %s = string
+		"create -f nam", 	"Creates a file of name 'nam'.",
+		"create nam",	"Creates a directory of name 'nam'."
+		);
+
+	if (!strcmp(tr[1], "erase"))  printf("%s\t%s\n",
+		"erase n1 n2 n3 ....", 	"Deletes files and/or empty directories, named n1, n2 ..."
+		);
+
+	if (!strcmp(tr[1], "writestr"))  printf("%s\t%s\n",
+		"writestr df str", 	"Write the string str in the open file with descriptor df"
 		);
 }
