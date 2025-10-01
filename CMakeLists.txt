@@ -21,4 +21,6 @@ add_executable(shell main.c
         list_file.c
         list_cmd.c
         main.h
+        cmd_erase.c
+        cmd_writestr.c
 )

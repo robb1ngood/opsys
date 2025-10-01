@@ -12,6 +12,8 @@
 
 void Cmd_authors     (char * tr[]);
 void Cmd_create      (char * tr[]);
+void Cmd_erase       (char * tr[]);
+void Cmd_writestr    (char *tr[], tFileList *list);
 void Cmd_getpid      (char * tr[]);
 void Cmd_chdir       (char * tr[]);
 void Cmd_getcwd      (char * tr[]);

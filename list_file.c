@@ -57,7 +57,7 @@ int   file_count (tFileList l) {
 }
 
 int   file_find_descriptor (tFileList l, tDescriptor df) {
-    for (int i = 0; i < l.last; i++) {
+    for (int i = 0; i <= l.last; i++) {
         if (l.contents[i].descriptor == df) return i;
         //if (l.contents[i].descriptor > df)  return LNULL;
     }

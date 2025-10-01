@@ -14,6 +14,10 @@ void Cmd_help(char *tr[]) {
 		"create -f nam", 	"Creates a file of name 'nam'.",
 		"create nam",	"Creates a directory of name 'nam'."
 		);
+
+	if (!strcmp(tr[1], "erase"))  printf("%s\t%s\n",
+		"erase", 	"Deletes files and/or empty directories, named n1, n2 ..."
+		);
     
 	if (!strcmp(tr[1], "getpid"))   printf("%s\t%s\n\t%s\t%s\n",
 		"getpid", 	"Prints the pid of the process executing the shell.", 
