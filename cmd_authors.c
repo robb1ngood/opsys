@@ -13,7 +13,7 @@ static const strAuthor AUTHORS[] = {
     {"Julian Vazquez Suarez", "julian.vazquez.suarez@udc.es" },
     {"Mark Mucska", "mark.mucska@udc.es" },
 };
-
+//test
 static const size_t NUM_AUTHORS = sizeof(AUTHORS) / sizeof(strAuthor);
 
 void Cmd_authors(char* trozos[]) {
