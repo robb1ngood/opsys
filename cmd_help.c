@@ -83,18 +83,17 @@ void Cmd_help(char* tr[]) {
 	if (!strcmp(tr[1], "bye"))      printf("%s %s\n",
 		"bye:", "Ends the shell"
 	);
-}
 
 	if (!strcmp(tr[1], "create"))  printf("%s\t%s\n%s\t%s\n", // \t = tab and \n = new line and %s = string
 		"create -f nam", 	"Creates a file of name 'nam'.",
 		"create nam",	"Creates a directory of name 'nam'."
-		);
+	);
 
 	if (!strcmp(tr[1], "erase"))  printf("%s\t%s\n",
 		"erase n1 n2 n3 ....", 	"Deletes files and/or empty directories, named n1, n2 ..."
-		);
+	);
 
 	if (!strcmp(tr[1], "writestr"))  printf("%s\t%s\n",
 		"writestr df str", 	"Write the string str in the open file with descriptor df"
-		);
+	);
 }
