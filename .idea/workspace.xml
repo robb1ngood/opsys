@@ -16,7 +16,9 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="Shell" targetName="new_target" />
+    </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
@@ -24,12 +26,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b35e923-1ec3-48ff-8ae9-039313eeb197" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmd_lseek.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands.h" beforeDir="false" afterPath="$PROJECT_DIR$/commands.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p0.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shell" beforeDir="false" />
+    <list default="true" id="8b35e923-1ec3-48ff-8ae9-039313eeb197" name="Changes" comment="lseek">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +67,12 @@
     <setting file="file://$PROJECT_DIR$/cmd_writestr.c" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/commands.h" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2025" />
+    <option name="minorVersion" value="2.1" />
+    <option name="productBranch" value="Classic" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -97,6 +103,18 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="new_target" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Shell" TARGET_NAME="new_target" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Shell" RUN_TARGET_NAME="new_target">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="8b35e923-1ec3-48ff-8ae9-039313eeb197" name="Changes" comment="" />
@@ -107,8 +125,17 @@
       <workItem from="1759386367964" duration="134000" />
       <workItem from="1759387357735" duration="416000" />
       <workItem from="1759572399605" duration="277000" />
-      <workItem from="1759572685342" duration="728000" />
+      <workItem from="1759572685342" duration="1414000" />
     </task>
+    <task id="LOCAL-00001" summary="lseek">
+      <option name="closed" value="true" />
+      <created>1759573463677</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759573463677</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,6 +145,10 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="lseek" />
+    <option name="LAST_COMMIT_MESSAGE" value="lseek" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
