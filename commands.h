@@ -16,7 +16,7 @@ void Cmd_chdir       (char * tr[]);
 void Cmd_getcwd      (char * tr[]);
 void Cmd_date        (char * tr[]);
 void Cmd_hour        (char * tr[]);
-void Cmd_historic    (char * tr[], tFileList *fl, tCommandList *cl);
+void Cmd_historic    (char * tr[], tFileList *fl, tCommandList *cl, dirParams params);
 void Cmd_open        (char * tr[], tFileList *list);
 void Cmd_close       (char * tr[], tFileList *list);
 void Cmd_dup         (char * tr[], tFileList *list);

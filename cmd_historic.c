@@ -3,7 +3,7 @@
 #include "trocearCadena.h"
 #include <math.h>
 
-void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl)
+void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams params)
 {
     if (tr[1] == NULL) {
         for (int i = cmd_first(*cl); i < cmd_last(*cl); i = cmd_next(*cl, i))
@@ -29,7 +29,7 @@ void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl)
     }
     else
         if (N <= cmd_last(*cl))
-            executeCommand(*cmd_get(cl, N), fl, cl);
+            executeCommand(*cmd_get(cl, N), fl, cl, params);
         else
             perror("command does not exist");
 }

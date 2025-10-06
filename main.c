@@ -18,12 +18,18 @@ int main(void) {
     tCommandList commandList;
     cmd_createEmpty(&commandList);
 
+    dirParams params = {
+        SHORT,
+        NOLINK,
+        NOHID
+    };
+
     for (;;) {
         tCmd command;
         printPrompt();
         readCommand(command);
         cmd_add(&commandList, command);
-        executeCommand(command, &fileList, &commandList);
+        executeCommand(command, &fileList, &commandList, params);
     }
 }
 
@@ -35,7 +41,7 @@ void readCommand(tCmd command) {
     if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL) exit(0);
 }
 
-void executeCommand(tCmd current, tFileList *fl, tCommandList *cl) {
+void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams params) {
     char *trozos[MAX_COMMAND_LENGTH];
     trocearCadena(current, trozos);
 
@@ -45,7 +51,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl) {
     if (!strcmp(trozos[0], "getcwd"))   Cmd_getcwd      (trozos);
     if (!strcmp(trozos[0], "date"))     Cmd_date        (trozos);
     if (!strcmp(trozos[0], "hour"))     Cmd_hour        (trozos);
-    if (!strcmp(trozos[0], "historic")) Cmd_historic    (trozos, fl, cl);
+    if (!strcmp(trozos[0], "historic")) Cmd_historic    (trozos, fl, cl, params);
     if (!strcmp(trozos[0], "open"))     Cmd_open        (trozos, fl);
     if (!strcmp(trozos[0], "close"))    Cmd_close       (trozos, fl);
     if (!strcmp(trozos[0], "dup"))      Cmd_dup         (trozos, fl);
