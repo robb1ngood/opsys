@@ -64,10 +64,11 @@ int   file_find_descriptor (tFileList l, tDescriptor df) {
     return LNULL;
 }
 int   file_find_name       (tFileList l, tName name) {
-    for (int i = 0; i < l.last; i++)
+    for (int i = 0; i <= l.last; i++)
         if (!strcmp(l.contents[i].name, name)) return i;
     return LNULL;
 }
+
 
 tFile file_get        (tFileList l, int i) {
     return l.contents[i];
