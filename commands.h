@@ -16,7 +16,7 @@ void Cmd_chdir       (char * tr[]);
 void Cmd_getcwd      (char * tr[]);
 void Cmd_date        (char * tr[]);
 void Cmd_hour        (char * tr[]);
-void Cmd_historic    (char * tr[], tFileList *fl, tCommandList *cl, dirParams params);
+void Cmd_historic    (char * tr[], tFileList *fl, tCommandList *cl, dirParams *params);
 void Cmd_open        (char * tr[], tFileList *list);
 void Cmd_close       (char * tr[], tFileList *list);
 void Cmd_dup         (char * tr[], tFileList *list);
@@ -29,5 +29,7 @@ void Cmd_create      (char * tr[]);
 void Cmd_erase       (char *tr[], tFileList *list);
 void Cmd_lseek       (char * tr[]);
 void Cmd_writestr    (char *tr[], tFileList *list);
+void Cmd_getdirparams(char *tr[], dirParams *params);
+void Cmd_setdirparams(char *tr[], dirParams *params);
 
 #endif //OS_FILE_H

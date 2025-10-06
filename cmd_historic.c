@@ -3,7 +3,7 @@
 #include "trocearCadena.h"
 #include <math.h>
 
-void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams params)
+void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams *params)
 {
     if (tr[1] == NULL) {
         for (int i = cmd_first(*cl); i < cmd_last(*cl); i = cmd_next(*cl, i))

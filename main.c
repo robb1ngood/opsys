@@ -30,7 +30,7 @@ int main(void) {
         printPrompt();
         readCommand(command);
         cmd_add(&commandList, command);
-        executeCommand(command, &fileList, &commandList, params);
+        executeCommand(command, &fileList, &commandList, &params);
     }
 }
 
@@ -42,7 +42,7 @@ void readCommand(tCmd command) {
     if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL) exit(0);
 }
 
-void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams params) {
+void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *params) {
     char *trozos[MAX_COMMAND_LENGTH];
     trocearCadena(current, trozos);
 
@@ -62,6 +62,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams par
     if (!strcmp(trozos[0], "quit"))     Cmd_quit        (trozos);
     if (!strcmp(trozos[0], "exit"))     Cmd_quit        (trozos);
     if (!strcmp(trozos[0], "bye"))      Cmd_quit        (trozos);
+
     if (!strcmp(trozos[0], "create"))   Cmd_create      (trozos);
     if (!strcmp(trozos[0], "erase"))    Cmd_erase       (trozos, fl);
     if (!strcmp(trozos[0], "writestr")) Cmd_writestr    (trozos, fl);
