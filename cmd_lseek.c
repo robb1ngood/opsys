@@ -1,5 +1,9 @@
 #include "commands.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>   // lseek
+#include <fcntl.h>    // SEEK_SET, SEEK_CUR, SEEK_END
 
 void Cmd_lseek (char * tr[]) {
     if (tr[1] == NULL || tr[2] == NULL || tr[3] == NULL)

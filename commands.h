@@ -26,7 +26,7 @@ void Cmd_help        (char * tr[]);
 void Cmd_quit        (char * tr[]);
 
 void Cmd_create      (char * tr[]);
-void Cmd_erase       (char * tr[]);
+void Cmd_erase       (char *tr[], tFileList *list);
 void Cmd_lseek       (char * tr[]);
 void Cmd_writestr    (char *tr[], tFileList *list);
 
