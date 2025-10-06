@@ -21,7 +21,8 @@ int main(void) {
     dirParams params = {
         SHORT,
         NOLINK,
-        NOHID
+        NOHID,
+        NOREC
     };
 
     for (;;) {

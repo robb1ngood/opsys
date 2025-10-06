@@ -19,10 +19,12 @@ typedef char tCmd[MAX_COMMAND_LENGTH];
 typedef enum { LONG, SHORT } tLengthFormat;
 typedef enum { LINK, NOLINK } tLinkDestination;
 typedef enum { HID, NOHID } tListHidden;
+typedef enum { RECA, RECB, NOREC } tRecursiveMode;
 typedef struct {
     tLengthFormat lengthFormat;
     tLinkDestination linkDestination;
     tListHidden listHidden;
+    tRecursiveMode recursiveMode;
 } dirParams;
 
 #endif

@@ -28,4 +28,6 @@ add_executable(new_target
         trocearCadena.c
         trocearCadena.h
         types.h
+        cmd_getdirparams.c
+        cmd_setdirparams.c
 )
