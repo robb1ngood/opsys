@@ -27,11 +27,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b35e923-1ec3-48ff-8ae9-039313eeb197" name="Changes" comment="getdirparams and setdirparams">
-      <change afterPath="$PROJECT_DIR$/Cmd_delrec.c" afterDir="false" />
+    <list default="true" id="8b35e923-1ec3-48ff-8ae9-039313eeb197" name="Changes" comment="delrec, i think?">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands.h" beforeDir="false" afterPath="$PROJECT_DIR$/commands.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +132,7 @@
       <workItem from="1759572399605" duration="277000" />
       <workItem from="1759572685342" duration="1414000" />
       <workItem from="1759822726043" duration="849000" />
-      <workItem from="1759858920197" duration="932000" />
+      <workItem from="1759858920197" duration="1318000" />
     </task>
     <task id="LOCAL-00001" summary="lseek">
       <option name="closed" value="true" />
@@ -175,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759749064158</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="delrec, i think?">
+      <option name="closed" value="true" />
+      <created>1759859866015</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759859866015</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,7 +197,8 @@
     <MESSAGE value="lseek" />
     <MESSAGE value="dir params global variable" />
     <MESSAGE value="getdirparams and setdirparams" />
-    <option name="LAST_COMMIT_MESSAGE" value="getdirparams and setdirparams" />
+    <MESSAGE value="delrec, i think?" />
+    <option name="LAST_COMMIT_MESSAGE" value="delrec, i think?" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
