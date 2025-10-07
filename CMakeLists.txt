@@ -30,4 +30,5 @@ add_executable(new_target
         types.h
         cmd_getdirparams.c
         cmd_setdirparams.c
+        Cmd_delrec.c
 )
