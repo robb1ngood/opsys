@@ -106,6 +106,27 @@ void Cmd_help(char* tr[]) {
 		"Write the string str in the open file with descriptor df",
 		"The same as dir, but in the case en of the names n1, n2 ...is a directory, ITS CONTENTS are listed.",
 		"Besides the parameters long|short and link|nolink we can use hid|nohid to list hidden files inside the directories reca|recb|norec to make directory listing recursive."
+	);
 
+	if (!strcmp(tr[1], "setdirparams"))  printf("%s\n\t%s\n%s\n\t%s\n%s\n\t%s\n%s\n\t%s\n",
+		"setdirparams long/short", "Establishes parameters for listing with dir: long or short format",
+		"setdirparams link/nolink", "Establishes parameters for listing with dir:  list (or not) symbolic link destination",
+		"setdirparams hid/nohid", "Establishes parameters for listing with dir:  list or omit hidden files",
+		"setdirparams reca|recb|norec", "Establishes parameters for listing with dir:  recurse directories (after), recurse directories (before) o do not recurse"
+	);
+
+	if (!strcmp(tr[1], "delrec"))  printf("%s\t%s\n",
+		"delrec n1 n2 n3 ...", "Deletes files and/or non empty directories (recursively) named n1, n2 .."
+	);
+
+	if (!strcmp(tr[1], "lseek"))  printf("%s\t%s\n\t%s\n\t%s\n\t%s\n",
+		"lseek df off ref", "Postitions the offset of an open file.",
+		"df: file descriptor for the open file",
+		"off: new offset",
+		"ref: reference, SEEK_SET (offset is from the beginning), SEEK_CUR(offset is from the current position) SEEK_END (offset is form the end)"
+	);
+
+	if (!strcmp(tr[1], "getdirparams"))  printf("%s\t%s\n",
+		"getdirparams", "Shows de value of the parameters for listing with dir"
 	);
 }
