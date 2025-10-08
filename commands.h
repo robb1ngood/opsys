@@ -28,7 +28,7 @@ void Cmd_quit        (char * tr[]);
 void Cmd_create      (char * tr[]);
 void Cmd_setdirparams(char *tr[], dirParams *params);
 void Cmd_getdirparams(char *tr[], dirParams *params);
-//void Cmd_dir         (char * tr[]);
+void Cmd_dir         (char * tr[]);
 void Cmd_erase       (char *tr[], tFileList *list);
 void Cmd_delrec      (char *tr[], tFileList *list);
 void Cmd_lseek       (char * tr[]);

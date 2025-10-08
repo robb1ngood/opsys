@@ -31,4 +31,5 @@ add_executable(new_target
         cmd_getdirparams.c
         cmd_setdirparams.c
         Cmd_delrec.c
+        cmd_dir.c
 )

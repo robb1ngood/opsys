@@ -96,4 +96,16 @@ void Cmd_help(char* tr[]) {
 	if (!strcmp(tr[1], "writestr"))  printf("%s\t%s\n",
 		"writestr df str", 	"Write the string str in the open file with descriptor df"
 	);
+
+	if (!strcmp(tr[1], "dir"))  printf("%s\n\t%s\n\t%s\n\t%s\n%s\n\t%s\n\t%s\n\t%s\n",
+	"dir n1 n2 n3 ...",
+		"Shows information for files/dirs n1, n2, n3.....",
+		"Depending on the parameters long/short does a short (just name and size) or long listing.",
+		"The parameter link/nolink decides whether the link (in case of symbolic links) is printed or not.",
+	"dir -d n1, n2 n3 ..",
+		"Write the string str in the open file with descriptor df",
+		"The same as dir, but in the case en of the names n1, n2 ...is a directory, ITS CONTENTS are listed.",
+		"Besides the parameters long|short and link|nolink we can use hid|nohid to list hidden files inside the directories reca|recb|norec to make directory listing recursive."
+
+	);
 }

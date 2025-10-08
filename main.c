@@ -66,7 +66,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *pa
     if (!strcmp(trozos[0], "create"))       Cmd_create      (trozos);
     if (!strcmp(trozos[0], "setdirparams")) Cmd_setdirparams(trozos, params);
     if (!strcmp(trozos[0], "getdirparams")) Cmd_getdirparams(trozos, params);
-    //if (!strcmp(trozos[0], "dir"))          Cmd_dir(trozos);
+    if (!strcmp(trozos[0], "dir"))          Cmd_dir         (trozos);
     if (!strcmp(trozos[0], "erase"))        Cmd_erase       (trozos, fl);
     if (!strcmp(trozos[0], "delrec"))       Cmd_delrec      (trozos, fl);
     if (!strcmp(trozos[0], "lseek"))        Cmd_lseek       (trozos);
