@@ -1,6 +1,6 @@
-//Chiara Percivaldi
-//Julian Vazquez Suarez
-//Mark Mucska
+/*Chiara Percivaldi*/
+/*Julian Vazquez Suarez*/
+/*Mark Mucska*/
 #include <stdio.h>
 #include "commands.h"
 #include "list.h"

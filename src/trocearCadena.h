@@ -5,4 +5,4 @@
 #include "types.h"
 int trocearCadena(tCmd cadena, char * trozos[]);
 
-#endif //OS_TROCEARCADENA_H
+#endif

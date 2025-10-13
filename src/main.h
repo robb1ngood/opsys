@@ -3,4 +3,4 @@
 
 void executeCommand(tCmd, tFileList*, tCommandList*, dirParams*);
 
-#endif //SHELL_MAIN_H
+#endif
