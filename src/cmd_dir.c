@@ -14,34 +14,15 @@
 #include <limits.h>
 
 /* Forward declarations */
-static void ListarFichero(const char *path, bool longfmt, bool linkinfo);
-static void ListarDirectorio(const char *dir, bool longfmt, bool linkinfo, bool showhid, tRecursiveMode recmode, int depth);
+static void ListarFichero(const char *path, tLengthFormat, tLinkDestination);
+static void ListarDirectorio(const char *dir, tLengthFormat, tLinkDestination, tListHidden, tRecursiveMode, int depth);
 
 void Cmd_dir(char *tr[], dirParams *params)
 {
-    bool longfmt = false, linkinfo = false, showhid = false, listdirs = false;
-    tRecursiveMode recmode = NOREC;
-
-    int i = 1;
-    for (; tr[i] != NULL; i++) {
-        if (!strcmp(tr[i], "long")) longfmt = true;
-        else if (!strcmp(tr[i], "short")) longfmt = false;
-        else if (!strcmp(tr[i], "link")) linkinfo = true;
-        else if (!strcmp(tr[i], "nolink")) linkinfo = false;
-        else if (!strcmp(tr[i], "hid")) showhid = true;
-        else if (!strcmp(tr[i], "nohid")) showhid = false;
-        else if (!strcmp(tr[i], "reca")) recmode = RECA;
-        else if (!strcmp(tr[i], "recb")) recmode = RECB;
-        else if (!strcmp(tr[i], "norec")) recmode = NOREC;
-        else if (!strcmp(tr[i], "-d")) listdirs = true;
-        else break;
-    }
-
-    if (tr[i] == NULL) {
-        tr[i] = ".";
-        tr[i + 1] = NULL;
-    }
-
+	bool listdirs = (strcmp(tr[1], "-d") == 0);
+	
+	int i = 1;
+	if(listdirs) i = 2;
     for (; tr[i] != NULL; i++) {
         struct stat st;
         if (lstat(tr[i], &st) == -1) {
@@ -50,13 +31,13 @@ void Cmd_dir(char *tr[], dirParams *params)
         }
 
         if (S_ISDIR(st.st_mode) && listdirs)
-            ListarDirectorio(tr[i], longfmt, linkinfo, showhid, recmode, 0);
+            ListarDirectorio(tr[i], params->lengthFormat, params->linkDestination, params->listHidden, params->recursiveMode, 0);
         else
-            ListarFichero(tr[i], longfmt, linkinfo);
+            ListarFichero(tr[i], params->lengthFormat, params->linkDestination);
     }
 }
 
-static void ListarFichero(const char *path, bool longfmt, bool linkinfo)
+static void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestination linkinfo)
 {
     (void)linkinfo;
 
@@ -66,7 +47,7 @@ static void ListarFichero(const char *path, bool longfmt, bool linkinfo)
         return;
     }
 
-    if (!longfmt) {
+    if (longfmt == SHORT) {
         printf("%-30s %10ld bytes\n", path, (long) st.st_size);
         return;
     }
@@ -100,7 +81,7 @@ static void ListarFichero(const char *path, bool longfmt, bool linkinfo)
     }
 }
 
-static void ListarDirectorio(const char *dir, bool longfmt, bool linkinfo, bool showhid, tRecursiveMode recmode, int depth)
+static void ListarDirectorio(const char *dir, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth)
 {
     DIR *dp;
     struct dirent *entry;
@@ -115,7 +96,7 @@ static void ListarDirectorio(const char *dir, bool longfmt, bool linkinfo, bool 
         printf("\n[%s]\n", dir);
 
     while ((entry = readdir(dp)) != NULL) {
-        if (!showhid && entry->d_name[0] == '.')
+        if (showhid == NOHID && entry->d_name[0] == '.')
             continue;
 
         snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
