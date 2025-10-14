@@ -3,6 +3,6 @@
 
 #include <string.h>
 #include "types.h"
-int trocearCadena(tCmd cadena, char * trozos[]);
+int trocearCadena(tCmd cadena, char * trozos[], char * separators);
 
 #endif

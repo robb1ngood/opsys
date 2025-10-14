@@ -17,7 +17,7 @@
 static void ListarFichero(const char *path, bool longfmt, bool linkinfo);
 static void ListarDirectorio(const char *dir, bool longfmt, bool linkinfo, bool showhid, tRecursiveMode recmode, int depth);
 
-void Cmd_dir(char *tr[])
+void Cmd_dir(char *tr[], dirParams *params)
 {
     bool longfmt = false, linkinfo = false, showhid = false, listdirs = false;
     tRecursiveMode recmode = NOREC;

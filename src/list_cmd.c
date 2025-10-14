@@ -35,7 +35,7 @@ int  cmd_prev  (tCommandList l, int i) {
     return LNULL;
 }
 int  cmd_count (tCommandList l) {
-    return l.last + 1;
+    return l.last;
 }
 
 tCmd *cmd_get(tCommandList *l, int i) {

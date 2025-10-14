@@ -14,21 +14,21 @@ static const strAuthor AUTHORS[] = {
     {"Mark Mucska", "mark.mucska@udc.es" },
 };
 
-static const size_t NUM_AUTHORS = sizeof(AUTHORS) / sizeof(strAuthor);
+static const int NUM_AUTHORS = 3;
 
 void Cmd_authors(char* trozos[]) {
     if (trozos[1] == NULL) {
-        for (size_t i = 0; i < NUM_AUTHORS; i++) {
-            printf("%s %s\n", AUTHORS[i].name, AUTHORS[i].login);
+        for (int i = 0; i < NUM_AUTHORS; i++) {
+            printf("%25s:%30s\n", AUTHORS[i].name, AUTHORS[i].login);
         }
     }
     else if (strcmp(trozos[1],"-l") == 0) {
-        for (size_t i = 0; i < NUM_AUTHORS; i++) {
+        for (int i = 0; i < NUM_AUTHORS; i++) {
             printf("%s\n", AUTHORS[i].login);
         }
     }
     else if (strcmp(trozos[1],"-n") == 0) {
-        for (size_t i = 0; i < NUM_AUTHORS; i++) {
+        for (int i = 0; i < NUM_AUTHORS; i++) {
             printf("%s\n", AUTHORS[i].name);
         }
     }

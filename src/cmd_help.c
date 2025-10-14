@@ -2,131 +2,67 @@
 
 void Cmd_help(char* tr[]) {
 	if (tr[1] == NULL) {
-		printf("- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n", "authors", "getpid", "chdir", "getcwd", "date", "hour", "historic", "open", "close", "dup", "listopen", "infosys", "help", "quit", "exit", "bye");
+		printf("'help [cmd|-lt|-T topic|-all]' ayuda sobre comandos\n\tComandos disponibles:\nauthors getpid chdir getcwd date hour historic open close dup listopen infosys help quit exit bye create setdirparams getdirparams dir erase delrec lseek writestr\n");
 		return;
 	}
+	printf("%s ", tr[1]);
 
-	if (!strcmp(tr[1], "authors"))  printf("%s %s\n",
-		"authors:", "Prints the names and logins of the program authors. authors -l prints only the logins and authors -n prints only the names"
-	);
+	if (!strcmp(tr[1], "authors"))  printf("%s\t%s\n", "[-n|-l]", "Prints the names and/or logins of the program authors.");
 
-	if (!strcmp(tr[1], "getpid"))   printf("%s %s\n%s %s\n",
-		"getpid:", "Prints the pid of the process executing the shell.",
-		"getpid -p:", "Prints the pid of the shell’s parent process."
-	);
+	else if (!strcmp(tr[1], "getpid"))   printf("%s\t%s\n", "[-p]", "Prints the pid of the process executing the shell or of its parent process.");
 
-	if (!strcmp(tr[1], "chdir"))    printf("%s %s\n",
-		"chdir [dir]:", "Changes the current working directory of the shell to dir (using the chdir system call). When invoked without arguments it prints the current working directory (using the getcwd system call)."
-	);
+	else if (!strcmp(tr[1], "chdir"))    printf("%s\t%s\n", "[dir]", "Changes or shows the current shell directory");
 
-	if (!strcmp(tr[1], "getcwd"))   printf("%s %s\n",
-		"getcwd:", "Prints the current working directory of the shell (using the getcwd system call)."
-	);
+	else if (!strcmp(tr[1], "getcwd"))   printf("\t%s\n", "Prints the current working directory of the shell");
 
-	if (!strcmp(tr[1], "date"))     printf("%s %s\n\t%s\t%s\n\t%s\t%s\n",
-		"date [-t|-d]:", "Prints the current date in the format DD/MM/YYYY and the current time in the format hh:mm:ss.",
-		"date -d", "Prints the current date in the format DD/MM/YYYY",
-		"date -t", "Prints and the current time in the format hh:mm:ss."
-	);
+	else if (!strcmp(tr[1], "date"))     printf("%s\t%s\n", "[-t|-d]", "Prints the current date in the format DD/MM/YYYY and the current time in the format hh:mm:ss.");
 
-	if (!strcmp(tr[1], "hour"))     printf("%s %s\n",
-		"hour:", "Prints and the current time in the format hh:mm:ss. (same as date -t)"
-	);
+	else if (!strcmp(tr[1], "hour"))     printf("\t%s\n", "Prints the current time in the format hh:mm:ss.");
 
-	if (!strcmp(tr[1], "historic")) printf("%s %s\n\t- %s\n\t- %s\n\t- %s\n%s %s\n\t- %s\n\t- %s\n",
-		"historic [N|-N]:", "Shows the historic of commands executed by this shell. In order to do this, a list to store all the commands input to the shell must be implemented.",
-		"historic: Prints all the commands that have been input with their order number",
-		"historic N: Repeats command number N (from historic list)",
-		"historic -N: Prints only the last N comands",
-		"historic [-clear|-count]:", "Clear the historic list or report its number of elements",
-		"historic -count: Reports how many commands there are on the historic list",
-		"historic -clear: Clears the historic list"
-	);
+	else if (!strcmp(tr[1], "historic")) printf("%s\t%s\n", "[-clear|-count|-N|N]", "Shows the historic of commands executed by this shell\n\t-clear: erases the historic of commands\n\t-count: prints the size of the historic\n\t-N: shows the last N commands\n\tN: repeats the Nth command");
 
-	if (!strcmp(tr[1], "open"))     printf("%s %s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n%s\n%s\n%s\n",
-		"open [file] mode:", "Opens a file and adds it (together with the file descriptor and the opening mode to the list of shell open files.",
-		"- cr O_CREAT", "- ap for O_APPEND", "- ex for O_EXCL", "- ro for O_RDONLY",
-		"- rw for O_RDWR", "- wo for O_WRONLY", "- tr for O_TRUNC",
-		"Open without arguments, 'open' lists the shell open files (descriptor, filename, and mode).",
-		"Note: the shell inherits descriptors 0, 1, 2 (stdin, stdout, stderr)",
-		"To get the opening mode from a descriptor(df) we can use fcntl(fd, F GETFL)."
-	);
+	else if (!strcmp(tr[1], "open"))     printf("%s\t%s\n", "fich m1 m2...", "opens the file fich, and adds it to the shell's open file list\nm1, m2.. is the mode (bitwise OR of the following)\n"
+			"\tcr: O_CREAT"		"\tap: O_APPEND\n"
+			"\tex: O_EXCL"		"\tro: O_RDONLY\n"
+			"\trw: O_RDWR"      "\two: O_WRONLY\n"
+			"\ttr: O_TRUNC");
 
-	if (!strcmp(tr[1], "close"))    printf("%s %s\n",
-		"close [df]:", "Closes the df file descriptor and eliminates the corresponding item from the list"
-	);
+	else if (!strcmp(tr[1], "close"))    printf("%s %s\n", "[df]", "Closes the df file descriptor and eliminates the corresponding item from the list");
 
-	if (!strcmp(tr[1], "dup"))      printf("%s %s\n",
-		"dup [df]:", "Duplicates the df file descriptor (using the dup system call, creating the corresponding new entry on the file list)"
-	);
+	else if (!strcmp(tr[1], "dup"))      printf("%s\t%s\n", "[df]", "Duplicates the df file descriptor and adds it as a new entry to the open files list");
 
-	if (!strcmp(tr[1], "listopen")) printf("%s %s\n",
-		"listopen:", "Lists the shell open files, This is the same as the open command without arguments"
-	);
+	else if (!strcmp(tr[1], "listopen")) printf("\t%s\n", "Lists the shell's open files");
 
-	if (!strcmp(tr[1], "infosys"))  printf("%s %s\n",
-		"infosys:", "Prints information on the machine running the shell (as obtained via the uname system call/library function)"
-	);
+	else if (!strcmp(tr[1], "infosys"))  printf("\t%s\n", "Prints information on the machine running the shell");
 
-	if (!strcmp(tr[1], "help"))     printf("%s %s\n",
-		"help [cmd]:", "help displays a list of available commands. help cmd gives a brief help on the usage of comand cmd"
-	);
+	else if (!strcmp(tr[1], "help"))     printf("%s\t%s\n", "[cmd]", "Displays a list of available commands.\ncmd: gives a brief help on the usage of comand cmd");
 
-	if (!strcmp(tr[1], "quit"))     printf("%s %s\n",
-		"quit:", "Ends the shell"
-	);
+	else if (!strcmp(tr[1], "quit"))     printf("\t%s\n", "Ends the shell");
+	else if (!strcmp(tr[1], "exit"))     printf("\t%s\n", "Ends the shell");
+	else if (!strcmp(tr[1], "bye"))      printf("\t%s\n", "Ends the shell");
 
-	if (!strcmp(tr[1], "exit"))     printf("%s %s\n",
-		"exit:", "Ends the shell"
-	);
+	else if (!strcmp(tr[1], "create"))   printf("%s\t%s\n", "[-f][name]", 	"Creates a directory or a file (-f) of name 'nam'.");
 
-	if (!strcmp(tr[1], "bye"))      printf("%s %s\n",
-		"bye:", "Ends the shell"
-	);
+	else if (!strcmp(tr[1], "erase"))    printf("%s\t%s\n", "[n1 n2 n3 ....]", "Deletes files and/or empty directories");
 
-	if (!strcmp(tr[1], "create"))  printf("%s\t%s\n%s\t%s\n", // \t = tab and \n = new line and %s = string
-		"create -f nam", 	"Creates a file of name 'nam'.",
-		"create nam",	"Creates a directory of name 'nam'."
-	);
+	else if (!strcmp(tr[1], "writestr")) printf("%s\t%s\n", "df str", "Write the string str in the open file with descriptor df");
 
-	if (!strcmp(tr[1], "erase"))  printf("%s\t%s\n",
-		"erase n1 n2 n3 ....", 	"Deletes files and/or empty directories, named n1, n2 ..."
-	);
+	else if (!strcmp(tr[1], "dir"))  	 printf("%s\t%s\n", "[-d] n1 n2 n3 ...", "Shows information for files/directories passed as argument, according to the format set in setdirparams\n\t-d: lists the contents of the parameter directories");
 
-	if (!strcmp(tr[1], "writestr"))  printf("%s\t%s\n",
-		"writestr df str", 	"Write the string str in the open file with descriptor df"
-	);
+	else if (!strcmp(tr[1], "setdirparams"))  printf("%s\t%s\n", "[long/short][hid|nohid][lnk|nolnk][recb|reca|norec]", "Establishes parameters for listing with dir\n"
+		"\t" "long|short:      long or short listing" "\n"
+		"\t" " hid|nohid:      list (or not) hidden files" "\n"
+		"\t" "link|nolink:     list (or not) symbolic link destination" "\n"
+		"\t" "reca|recb|norec: listing recurses before (recb), before (reca) or none");
 
-	if (!strcmp(tr[1], "dir"))  printf("%s\n\t%s\n\t%s\n\t%s\n%s\n\t%s\n\t%s\n\t%s\n",
-	"dir n1 n2 n3 ...",
-		"Shows information for files/dirs n1, n2, n3.....",
-		"Depending on the parameters long/short does a short (just name and size) or long listing.",
-		"The parameter link/nolink decides whether the link (in case of symbolic links) is printed or not.",
-	"dir -d n1, n2 n3 ..",
-		"Write the string str in the open file with descriptor df",
-		"The same as dir, but in the case en of the names n1, n2 ...is a directory, ITS CONTENTS are listed.",
-		"Besides the parameters long|short and link|nolink we can use hid|nohid to list hidden files inside the directories reca|recb|norec to make directory listing recursive."
-	);
+	else if (!strcmp(tr[1], "delrec"))  printf("%s\t%s\n", "n1 n2 n3 ...", "Deletes files and/or non empty directories recursively");
 
-	if (!strcmp(tr[1], "setdirparams"))  printf("%s\n\t%s\n%s\n\t%s\n%s\n\t%s\n%s\n\t%s\n",
-		"setdirparams long/short", "Establishes parameters for listing with dir: long or short format",
-		"setdirparams link/nolink", "Establishes parameters for listing with dir:  list (or not) symbolic link destination",
-		"setdirparams hid/nohid", "Establishes parameters for listing with dir:  list or omit hidden files",
-		"setdirparams reca|recb|norec", "Establishes parameters for listing with dir:  recurse directories (after), recurse directories (before) o do not recurse"
-	);
+	else if (!strcmp(tr[1], "lseek"))  printf("%s\t%s\n", "df off ref", "Postitions the offset of an open file. ref is the reference:" "\n"
+	"\t"	"SEEK_SET: beginning of the file" "\n"
+	"\t"	"SEEK_CUR: current position" "\n"
+	"\t"	"SEEK_END: end of the file");
 
-	if (!strcmp(tr[1], "delrec"))  printf("%s\t%s\n",
-		"delrec n1 n2 n3 ...", "Deletes files and/or non empty directories (recursively) named n1, n2 .."
-	);
-
-	if (!strcmp(tr[1], "lseek"))  printf("%s\t%s\n\t%s\n\t%s\n\t%s\n",
-		"lseek df off ref", "Postitions the offset of an open file.",
-		"df: file descriptor for the open file",
-		"off: new offset",
-		"ref: reference, SEEK_SET (offset is from the beginning), SEEK_CUR(offset is from the current position) SEEK_END (offset is form the end)"
-	);
-
-	if (!strcmp(tr[1], "getdirparams"))  printf("%s\t%s\n",
-		"getdirparams", "Shows de value of the parameters for listing with dir"
-	);
+	else if (!strcmp(tr[1], "getdirparams"))  printf("\t%s\n", "Shows de value of the parameters for listing with dir");
+	
+	else printf(" not found\n");
 }

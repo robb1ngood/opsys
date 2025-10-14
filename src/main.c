@@ -1,7 +1,13 @@
 /*Chiara Percivaldi*/
 /*Julian Vazquez Suarez*/
 /*Mark Mucska*/
+
 #include <stdio.h>
+#include <string.h>
+#include <limits.h>
+#include <unistd.h>
+#include <sys/utsname.h>
+
 #include "commands.h"
 #include "list.h"
 #include "trocearCadena.h"
@@ -35,7 +41,20 @@ int main(void) {
 }
 
 void printPrompt() {
-    printf("> ");
+    struct utsname sysinfo;
+	if (uname(&sysinfo) == -1) {
+        perror("(uname)");
+        return;
+    }
+	
+	char cwd[PATH_MAX];
+	char *cwd_trozos[PATH_MAX];
+	int i;
+	if (getcwd(cwd, sizeof (cwd)) != NULL)
+		i = trocearCadena(cwd, cwd_trozos, "\\/");
+	else perror("getcwd");
+	
+    printf("%s@%s{%s} %s ", sysinfo.sysname, sysinfo.nodename, cwd_trozos[i - 1], "%)");
 }
 
 void readCommand(tCmd command) {
@@ -44,7 +63,7 @@ void readCommand(tCmd command) {
 
 void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *params) {
     char *trozos[MAX_COMMAND_LENGTH];
-    trocearCadena(current, trozos);
+    trocearCadena(current, trozos, " \n\t");
 
     if (!strcmp(trozos[0], "authors"))  Cmd_authors     (trozos);
     if (!strcmp(trozos[0], "getpid"))   Cmd_getpid      (trozos);
@@ -66,7 +85,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *pa
     if (!strcmp(trozos[0], "create"))       Cmd_create      (trozos);
     if (!strcmp(trozos[0], "setdirparams")) Cmd_setdirparams(trozos, params);
     if (!strcmp(trozos[0], "getdirparams")) Cmd_getdirparams(trozos, params);
-    if (!strcmp(trozos[0], "dir"))          Cmd_dir         (trozos);
+    if (!strcmp(trozos[0], "dir"))          Cmd_dir         (trozos, params);
     if (!strcmp(trozos[0], "erase"))        Cmd_erase       (trozos, fl);
     if (!strcmp(trozos[0], "delrec"))       Cmd_delrec      (trozos, fl);
     if (!strcmp(trozos[0], "lseek"))        Cmd_lseek       (trozos);

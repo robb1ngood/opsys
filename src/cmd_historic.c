@@ -7,7 +7,7 @@ void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams *par
 {
     if (tr[1] == NULL) {
         for (int i = cmd_first(*cl); i < cmd_last(*cl); i = cmd_next(*cl, i))
-            printf("%d) %s\n", i, *cmd_get(cl, i));
+            printf("%d->%s", i, *cmd_get(cl, i));
         return;
     }
     if (!strcmp(tr[1], "-clear")) {
@@ -25,7 +25,7 @@ void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams *par
         if (i < cmd_first(*cl))
             i = cmd_first(*cl);
         for (; i < cmd_last(*cl); i = cmd_next(*cl, i))
-            printf("%d) %s\n", i, *cmd_get(cl, i));
+            printf("%d->%s", i, *cmd_get(cl, i));
     }
     else
         if (N <= cmd_last(*cl))
