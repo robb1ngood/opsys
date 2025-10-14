@@ -42,15 +42,21 @@ static void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestinat
     (void)linkinfo;
 
     struct stat st;
-    if (lstat(path, &st) == -1) {
+	if ((linkinfo ==LINK && stat(path, &st) == -1) || (linkinfo == NOLINK && lstat(path, &st) == -1)) {
         perror(path);
         return;
     }
 
     if (longfmt == SHORT) {
-        printf("%-30s %10ld bytes\n", path, (long) st.st_size);
+        printf("%9ld %s \n", (long) st.st_size, path);
         return;
     }
+
+    char timebuf[64];
+    struct tm *tm = localtime(&st.st_mtime);
+    strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M", tm);
+	
+    printf("%s %3ld ",	timebuf, (long) st.st_nlink);
 
     putchar(S_ISDIR(st.st_mode) ? 'd' : (S_ISLNK(st.st_mode) ? 'l' : '-'));
     putchar(st.st_mode & S_IRUSR ? 'r' : '-');
@@ -64,12 +70,7 @@ static void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestinat
     putchar(st.st_mode & S_IXOTH ? 'x' : '-');
     putchar(' ');
 
-    char timebuf[64];
-    struct tm *tm = localtime(&st.st_mtime);
-    strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M", tm);
-
-    printf("%3ld %8ld %s %s\n",
-           (long) st.st_nlink, (long) st.st_size, timebuf, path);
+    printf("%8ld %s\n",	(long) st.st_size, path);
 
     if (S_ISLNK(st.st_mode) && linkinfo) {
         char target[PATH_MAX];
