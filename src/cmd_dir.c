@@ -40,8 +40,7 @@ void Cmd_dir(char *tr[], dirParams *params)
     }
 }
 
-char LetraTF (mode_t m)
-{
+char LetraTF (mode_t m) {
     switch (m&S_IFMT) { /*and bit a bit con los bits de formato,0170000 */
         case S_IFSOCK: return 's'; /*socket */
         case S_IFLNK: return 'l'; /*symbolic link*/
@@ -53,9 +52,7 @@ char LetraTF (mode_t m)
         default: return '?'; /*desconocido, no deberia aparecer*/
     }
 }
-
-char * ConvierteModo (mode_t m, char *permisos)
-{
+char * ConvierteModo (mode_t m, char *permisos) {
     strcpy (permisos,"---------- ");
     
     permisos[0]=LetraTF(m);
@@ -100,7 +97,7 @@ void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestination lin
 	pwd = *getpwuid(st.st_uid);
 	grp = *getgrgid(st.st_gid);
 	
-    printf("%s %d %3ld %s %s %s %8ld %s\n",	timebuf, (int) st.st_ino, (long) st.st_nlink, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, path);
+    printf("%s %3ld %s %s %s %8ld %s\n",	timebuf, (long) st.st_nlink, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, path);
 
     if (S_ISLNK(st.st_mode) && linkinfo) {
         char target[PATH_MAX];
