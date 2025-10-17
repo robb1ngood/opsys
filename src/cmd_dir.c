@@ -97,7 +97,7 @@ void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestination lin
 	pwd = *getpwuid(st.st_uid);
 	grp = *getgrgid(st.st_gid);
 	
-    printf("%s %3ld %s %s %s %8ld %s\n",	timebuf, (long) st.st_nlink, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, path);
+    printf("%s %3ld (%ld) %s %s %s %8ld %s\n",	timebuf, (long) st.st_nlink, st.st_ino, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, path);
 
     if (S_ISLNK(st.st_mode) && linkinfo) {
         char target[PATH_MAX];
