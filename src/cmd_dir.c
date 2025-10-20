@@ -109,10 +109,10 @@ void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestination lin
     }
 }
 
-void ListarDirectorio(const char *dir, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth)
+void ListarDirectorio(const char* dir, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth)
 {
-    DIR *dp;
-    struct dirent *entry;
+    DIR* dp;
+    struct dirent* entry;
     char path[PATH_MAX];
 
     if ((dp = opendir(dir)) == NULL) {
@@ -120,11 +120,56 @@ void ListarDirectorio(const char *dir, tLengthFormat longfmt, tLinkDestination l
         return;
     }
 
-    if (recmode == RECA)
+    if (depth > 0)
         printf("\n[%s]\n", dir);
 
+    if (recmode == RECB) {
+        rewinddir(dp); //this is for return at the start of directory
+        while ((entry = readdir(dp)) != NULL) {
+            if (showhid == NOHID && entry->d_name[0] == '.')
+                continue;
+
+            if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
+                continue;
+
+            snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
+
+            struct stat st;
+            if (lstat(path, &st) == -1)
+                continue;
+
+            if (S_ISDIR(st.st_mode)) // if it is the directory
+                ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
+        }
+    }
+
+    rewinddir(dp);
+    while ((entry = readdir(dp)) != NULL){
+         if (showhid == NOHID && entry->d_name[0] == '.')
+               continue;
+
+         if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
+                continue;
+
+         snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
+
+          struct stat st;
+           if (lstat(path, &st) == -1)
+                continue;
+
+            if (!S_ISDIR(st.st_mode)) 
+                ListarFichero(path, longfmt, linkinfo);
+    }
+        
+    
+if (recmode == RECA) {
+    rewinddir(dp);
     while ((entry = readdir(dp)) != NULL) {
+
         if (showhid == NOHID && entry->d_name[0] == '.')
+            continue;
+
+        if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
             continue;
 
         snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
@@ -133,20 +178,12 @@ void ListarDirectorio(const char *dir, tLengthFormat longfmt, tLinkDestination l
         if (lstat(path, &st) == -1)
             continue;
 
-        if (S_ISDIR(st.st_mode) &&
-            strcmp(entry->d_name, ".") && strcmp(entry->d_name, "..")) {
-
-            if (recmode == RECA)
-                ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
-            else if (recmode == RECB)
-                ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
-        } else {
-            ListarFichero(path, longfmt, linkinfo);
-        }
+        if (S_ISDIR(st.st_mode))
+            ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
     }
+}
 
     closedir(dp);
 
-    if (recmode == RECB)
-        printf("\n[%s]\n", dir);
+
 }
