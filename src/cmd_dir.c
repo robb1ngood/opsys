@@ -1,6 +1,7 @@
 #define _POSIX_C_SOURCE 200809L
 
 #include "commands.h"
+#include "trocearCadena.h"
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
@@ -17,8 +18,8 @@
 #include <pwd.h>
 
 /* Forward declarations */
-void ListarFichero(const char *path, tLengthFormat, tLinkDestination);
-void ListarDirectorio(const char *dir, tLengthFormat, tLinkDestination, tListHidden, tRecursiveMode, int depth);
+void ListarFichero(char *path, tLengthFormat, tLinkDestination);
+void ListarDirectorio(char* dir, tLengthFormat, tLinkDestination, tListHidden, tRecursiveMode, int depth);
 
 void Cmd_dir(char *tr[], dirParams *params)
 {
@@ -26,68 +27,70 @@ void Cmd_dir(char *tr[], dirParams *params)
 	
 	int i = 1;
 	if(listdirs) i = 2;
-    for (; tr[i] != NULL; i++) {
-        struct stat st;
-        if (lstat(tr[i], &st) == -1) {
-            perror(tr[i]);
-            continue;
-        }
-
-        if (S_ISDIR(st.st_mode) && listdirs)
-            ListarDirectorio(tr[i], params->lengthFormat, params->linkDestination, params->listHidden, params->recursiveMode, 0);
-        else
-            ListarFichero(tr[i], params->lengthFormat, params->linkDestination);
-    }
+	for (; tr[i] != NULL; i++) {
+		struct stat st;
+		if (lstat(tr[i], &st) == -1) {
+			perror(tr[i]);
+			continue;
+		}
+		
+		if (S_ISDIR(st.st_mode) && listdirs)
+			ListarDirectorio(tr[i], params->lengthFormat, params->linkDestination, params->listHidden, params->recursiveMode, 0);
+		else
+			ListarFichero(tr[i], params->lengthFormat, params->linkDestination);
+	}
 }
 
 char LetraTF (mode_t m) {
-    switch (m&S_IFMT) { /*and bit a bit con los bits de formato,0170000 */
-        case S_IFSOCK: return 's'; /*socket */
-        case S_IFLNK: return 'l'; /*symbolic link*/
-        case S_IFREG: return '-'; /* fichero normal*/
-        case S_IFBLK: return 'b'; /*block device*/
-        case S_IFDIR: return 'd'; /*directorio */ 
-        case S_IFCHR: return 'c'; /*char device*/
-        case S_IFIFO: return 'p'; /*pipe*/
-        default: return '?'; /*desconocido, no deberia aparecer*/
-    }
+	switch (m&S_IFMT) { /*and bit a bit con los bits de formato,0170000 */
+		case S_IFSOCK: return 's'; /*socket */
+		case S_IFLNK: return 'l'; /*symbolic link*/
+		case S_IFREG: return '-'; /* fichero normal*/
+		case S_IFBLK: return 'b'; /*block device*/
+		case S_IFDIR: return 'd'; /*directorio */ 
+		case S_IFCHR: return 'c'; /*char device*/
+		case S_IFIFO: return 'p'; /*pipe*/
+		default: return '?'; /*desconocido, no deberia aparecer*/
+	}
 }
-char * ConvierteModo (mode_t m, char *permisos) {
-    strcpy (permisos,"---------- ");
-    
-    permisos[0]=LetraTF(m);
-    if (m&S_IRUSR) permisos[1]='r';    /*propietario*/
-    if (m&S_IWUSR) permisos[2]='w';
-    if (m&S_IXUSR) permisos[3]='x';
-    if (m&S_IRGRP) permisos[4]='r';    /*grupo*/
-    if (m&S_IWGRP) permisos[5]='w';
-    if (m&S_IXGRP) permisos[6]='x';
-    if (m&S_IROTH) permisos[7]='r';    /*resto*/
-    if (m&S_IWOTH) permisos[8]='w';
-    if (m&S_IXOTH) permisos[9]='x';
-    if (m&S_ISUID) permisos[3]='s';    /*setuid, setgid y stickybit*/
-    if (m&S_ISGID) permisos[6]='s';
-    //if (m&S_ISVTX) permisos[9]='t';
-    
-    return permisos;
+char *ConvierteModo (mode_t m, char *permisos) {
+	strcpy (permisos,"---------- ");
+	
+	permisos[0]=LetraTF(m);
+	if (m&S_IRUSR) permisos[1]='r';    /*propietario*/
+	if (m&S_IWUSR) permisos[2]='w';
+	if (m&S_IXUSR) permisos[3]='x';
+	if (m&S_IRGRP) permisos[4]='r';    /*grupo*/
+	if (m&S_IWGRP) permisos[5]='w';
+	if (m&S_IXGRP) permisos[6]='x';
+	if (m&S_IROTH) permisos[7]='r';    /*resto*/
+	if (m&S_IWOTH) permisos[8]='w';
+	if (m&S_IXOTH) permisos[9]='x';
+	if (m&S_ISUID) permisos[3]='s';    /*setuid, setgid y stickybit*/
+	if (m&S_ISGID) permisos[6]='s';
+	//if (m&S_ISVTX) permisos[9]='t';
+	
+	return permisos;
 }
 
-void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestination linkinfo)
-{
-    struct stat st;
+void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo) {
+	struct stat st;
 	if ((linkinfo ==LINK && stat(path, &st) == -1) || (linkinfo == NOLINK && lstat(path, &st) == -1)) {
-        perror(path);
-        return;
-    }
-
-    if (longfmt == SHORT) {
-        printf("%9ld %s \n", (long) st.st_size, path);
-        return;
-    }
-
-    char timebuf[64];
-    struct tm *tm = localtime(&st.st_mtime);
-    strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M", tm);
+		perror(path);
+		return;
+	}
+	
+	char *trozos[PATH_MAX/2];
+	int i = trocearCadena(path, trozos, "\\/");
+	
+	if (longfmt == SHORT) {
+		printf("%9ld %s \n", (long) st.st_size, trozos[i - 1]);
+		return;
+	}
+	
+	char timebuf[64];
+	struct tm *tm = localtime(&st.st_mtime);
+	strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M", tm);
 	
 	char permisos[12];
 	ConvierteModo(st.st_mode, permisos);
@@ -97,93 +100,67 @@ void ListarFichero(const char *path, tLengthFormat longfmt, tLinkDestination lin
 	pwd = *getpwuid(st.st_uid);
 	grp = *getgrgid(st.st_gid);
 	
-    printf("%s %3ld (%ld) %s %s %s %8ld %s\n",	timebuf, (long) st.st_nlink, st.st_ino, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, path);
-
-    if (S_ISLNK(st.st_mode) && linkinfo) {
-        char target[PATH_MAX];
-        ssize_t len = readlink(path, target, sizeof(target) - 1);
-        if (len != -1) {
-            target[len] = '\0';
-            printf(" -> %s\n", target);
-        }
-    }
+	printf("%s %3ld (%ld) %s %s %s %8ld %s\n",	timebuf, (long) st.st_nlink, st.st_ino, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, trozos[i - 1]);
+	
+	if (S_ISLNK(st.st_mode) && linkinfo) {
+		char target[PATH_MAX];
+		ssize_t len = readlink(path, target, sizeof(target) - 1);
+		if (len != -1) {
+			target[len] = '\0';
+			printf(" -> %s\n", target);
+		}
+	}
 }
 
-void ListarDirectorio(const char* dir, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth)
-{
-    DIR* dp;
-    struct dirent* entry;
-    char path[PATH_MAX];
+#define SKIP_FILE_CONDITIONS (showhid == NOHID && entry->d_name[0] == '.') || (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
 
-    if ((dp = opendir(dir)) == NULL) {
-        perror(dir);
-        return;
-    }
-
-    if (depth > 0)
-        printf("\n[%s]\n", dir);
-
-    if (recmode == RECB) {
-        rewinddir(dp); //this is for return at the start of directory
-        while ((entry = readdir(dp)) != NULL) {
-            if (showhid == NOHID && entry->d_name[0] == '.')
-                continue;
-
-            if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
-                continue;
-
-            snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
-
-            struct stat st;
-            if (lstat(path, &st) == -1)
-                continue;
-
-            if (S_ISDIR(st.st_mode)) // if it is the directory
-                ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
-        }
-    }
-
-    rewinddir(dp);
-    while ((entry = readdir(dp)) != NULL){
-         if (showhid == NOHID && entry->d_name[0] == '.')
-               continue;
-
-         if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
-                continue;
-
-         snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
-
-          struct stat st;
-           if (lstat(path, &st) == -1)
-                continue;
-
-            if (!S_ISDIR(st.st_mode)) 
-                ListarFichero(path, longfmt, linkinfo);
-    }
-        
-    
-if (recmode == RECA) {
-    rewinddir(dp);
-    while ((entry = readdir(dp)) != NULL) {
-
-        if (showhid == NOHID && entry->d_name[0] == '.')
-            continue;
-
-        if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
-            continue;
-
-        snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
-
-        struct stat st;
-        if (lstat(path, &st) == -1)
-            continue;
-
-        if (S_ISDIR(st.st_mode))
-            ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
-    }
+void listdirRec(char *dir, DIR *dp, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth) {
+	struct dirent *entry;
+	char path[PATH_MAX];
+	
+	rewinddir(dp); //this is for return at the start of directory
+	while ((entry = readdir(dp)) != NULL) {
+		if (SKIP_FILE_CONDITIONS)
+			continue;
+		
+		snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
+		struct stat st;
+		if (lstat(path, &st) == -1)
+			continue;
+		
+		if (S_ISDIR(st.st_mode)) // if it is a directory
+			ListarDirectorio(path, longfmt, linkinfo, showhid, recmode, depth + 1);
+	}
 }
 
-    closedir(dp);
+void ListarDirectorio(char* dir, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth) {
+	DIR *dp;
+	struct dirent *entry;
+	char path[PATH_MAX];
+	
+	if ((dp = opendir(dir)) == NULL) {
+		perror(dir);
+		return;
+	}
+	
+	if (recmode == RECB) 
+		listdirRec(dir, dp, longfmt, linkinfo, showhid, recmode, depth);
 
+	printf("************%s\n", dir); // name of the directory
+	
+	rewinddir(dp);
+	while ((entry = readdir(dp)) != NULL){
+		if (SKIP_FILE_CONDITIONS)
+			continue;
 
+		snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
+		ListarFichero(path, longfmt, linkinfo);
+	}
+	
+	if (recmode == RECA) 
+		listdirRec(dir, dp, longfmt, linkinfo, showhid, recmode, depth);
+	
+	closedir(dp);
 }
+
+#undef SKIP_FILE_CONDITIONS

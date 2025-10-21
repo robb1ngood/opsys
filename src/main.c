@@ -54,7 +54,7 @@ void printPrompt() {
 		i = trocearCadena(cwd, cwd_trozos, "\\/");
 	else perror("getcwd");
 	
-    printf("%s@%s{%s} %s ", sysinfo.sysname, sysinfo.nodename, cwd_trozos[i - 1], "%)");
+    printf("%s@%s{%s} %%) ", sysinfo.sysname, sysinfo.nodename, cwd_trozos[i - 1]);
 }
 
 void readCommand(tCmd command) {
