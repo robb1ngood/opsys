@@ -9,14 +9,18 @@ void Cmd_close (char *tr[], tFileList *fl)
         Cmd_listopen(tr, fl);
         return;
     }
-
-    if (close(df)==-1)
-        perror("Inposible cerrar descriptor");
-    else {
-        int pos = file_find_descriptor(*fl, df);
-        if (pos != LNULL)
-            file_remove(fl, pos);
-        else
-            perror("Inposible cerrar descriptor");
+    if (df == 0 || df == 1 || df == 2) {
+        fprintf(stderr, "It is not allowed to close stdin/stdout/stderr.\n");
+        return;
     }
+    int pos = file_find_descriptor(*fl, df);
+    if (pos == LNULL) {
+        perror("Unable to close descriptor");
+        return;
+    }
+    
+     if (close(df) == -1)
+        perror("Unable to close descriptor");
+     else
+		 file_remove(fl, pos);
 }

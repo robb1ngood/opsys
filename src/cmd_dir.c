@@ -112,7 +112,7 @@ void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo)
 	}
 }
 
-#define SKIP_FILE_CONDITIONS (showhid == NOHID && entry->d_name[0] == '.') || (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
+#define SKIP_FILE_CONDITIONS ((showhid == NOHID && entry->d_name[0] == '.') || (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")))
 
 void listdirRec(char *dir, DIR *dp, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth) {
 	struct dirent *entry;
