@@ -16,8 +16,8 @@ void Cmd_open (char * tr[], tFileList *list) {
         else if (!strcmp(tr[i],"ap")) mode|=O_APPEND;
         else if (!strcmp(tr[i],"tr")) mode|=O_TRUNC;
         else break;
-
-    if ((df=open(tr[1],mode,0777))==-1)
+    df = open(tr[1], mode, 0777);
+    if (df==-1)
         perror ("Imposible abrir fichero");
     else{
         file_add(list, file_createNode(df, mode, tr[1]));
