@@ -2,7 +2,7 @@
 
 void Cmd_help(char* tr[]) {
 	if (tr[1] == NULL) {
-		printf("'help [cmd|-lt|-T topic|-all]' ayuda sobre comandos\n\tComandos disponibles:\nauthors getpid chdir getcwd date hour historic open close dup listopen infosys help quit exit bye create setdirparams getdirparams dir erase delrec lseek writestr\n");
+		printf("'help [cmd|-lt|-T topic|-all]' help for commands\n\tComandos disponibles:\n- authors\n- getpid\n- chdir\n- getcwd\n- date\n- hour\n- historic\n- open\n- close\n- dup\n- listopen\n- infosys\n- help\n- quit\n- exit\n- bye\n- create\n- setdirparams\n- getdirparams\n- dir\n- erase\n- delrec\n- lseek\n- writestr\n");
 		return;
 	}
 	printf("%s ", tr[1]);

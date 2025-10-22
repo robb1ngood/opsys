@@ -18,5 +18,6 @@ void Cmd_dup (char * tr[], tFileList *fl)
     else {
         snprintf (aux,sizeof(aux),"dup %d (%s)", df, file_get(*fl, file_find_descriptor(*fl, df)).name);
         file_add(fl, file_createNode(df, fcntl(duplicado, F_GETFL), aux));
+        printf("Duplicate descriptor %d in %d\n", df, duplicado);
     }
 }
