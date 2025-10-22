@@ -8,17 +8,18 @@ void Cmd_close (char *tr[], tFileList *fl)
 		return;
 	}
 	
-	char **endptr;
-	int df = strtol(tr[1], endptr, 10);
-	if (tr[1] == *endptr || df < 0) { /*parametro invalido, o el descriptor es menor que 0*/
+	char *endptr;
+	int df = strtol(tr[1], &endptr, 10);
+	if (fl == NULL || fl->last == LNULL) {
 		Cmd_listopen(tr, fl);
 		return;
 	}
-	
-	if (df == 0 || df == 1 || df == 2) {
-		fprintf(stderr, "It is not allowed to close stdin/stdout/stderr.\n");
+
+	if (tr[1] == endptr || df < 0) { /*parametro invalido, o el descriptor es menor que 0*/
+		Cmd_listopen(tr, fl);
 		return;
 	}
+
 	int pos = file_find_descriptor(*fl, df);
 	if (pos == LNULL) {
 		perror("Unable to close descriptor");

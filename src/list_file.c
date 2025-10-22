@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include "list.h"
 
 void  file_createEmpty  (tFileList* l) {
@@ -15,7 +16,11 @@ void  file_add          (tFileList* l, tFile f)
         return;
     }
 
-    for (int i = 0; i < l->last; i++) {
+    if (l->last >= LIST_LENGTH - 1) {
+        fprintf(stderr, "maximum number of open files reached\n");
+        return;
+    }
+    for (int i = 0; i <= l->last; i++) {
         if (l->contents[i].descriptor < f.descriptor) {
             for (int j = l->last; j >= i; j++) {
                 l->contents[j + 1] = l->contents[j];
@@ -30,6 +35,8 @@ void  file_add          (tFileList* l, tFile f)
     l->contents[l->last] = f;
 }
 void  file_remove       (tFileList* l, int index) {
+    if (l->last == LNULL || index < 0 || index > l->last) return;
+
     for (int i = index; i < l->last; i++) {
         l->contents[i] = l->contents[i + 1];
     }
@@ -57,6 +64,7 @@ int   file_count (tFileList l) {
 }
 
 int   file_find_descriptor (tFileList l, tDescriptor df) {
+    if (l.last == LNULL) return LNULL;
     for (int i = 0; i <= l.last; i++) {
         if (l.contents[i].descriptor == df) return i;
         //if (l.contents[i].descriptor > df)  return LNULL;

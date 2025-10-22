@@ -1,10 +1,16 @@
 #include "trocearCadena.h"
 int trocearCadena(tCmd cadena, char * trozos[], char *separators)
 {
-    int i = 1;
-    if ((trozos[0] = strtok(cadena, separators)) == NULL)
+    int i ;
+    trozos[0] = strtok(cadena, separators);
+    if (trozos[0] == NULL)
         return 0;
-    while ((trozos[i] = strtok(NULL, separators)) != NULL)
-        i++;
+        for (i = 1; i < MAX_COMMAND_LENGTH - 1; i++) {
+			trozos[i] = strtok(NULL, separators);
+			if (trozos[i] == NULL)
+                break;
+    }
+
+    trozos[i]=NULL;
     return i;
 }
