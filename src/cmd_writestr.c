@@ -11,7 +11,12 @@ void Cmd_writestr(char *tr[], tFileList *list) {
         return;
     }
 
-    int df = atoi(tr[1]);
+	char *endptr;
+    int df = strtol(tr[1], &endptr, 10);
+	if (tr[1] == endptr) {
+		fprintf(stderr, "writestr: descriptor must be a number\n");
+		return;
+	}
 
     // check if descriptor exists in file list
     int index = file_find_descriptor(*list, df);
