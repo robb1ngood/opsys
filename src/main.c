@@ -64,6 +64,8 @@ void readCommand(tCmd command) {
 void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *params) {
     char *trozos[MAX_COMMAND_LENGTH];
     trocearCadena(current, trozos, " \n\t");
+	if (trozos[0]==NULL)
+		return;
 
     if (!strcmp(trozos[0], "authors"))  Cmd_authors     (trozos);
     if (!strcmp(trozos[0], "getpid"))   Cmd_getpid      (trozos);

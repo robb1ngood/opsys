@@ -16,6 +16,7 @@
 #include <limits.h>
 #include <grp.h>
 #include <pwd.h>
+#include <errno.h>
 
 /* Forward declarations */
 void ListarFichero(char *path, tLengthFormat, tLinkDestination);
@@ -23,6 +24,7 @@ void ListarDirectorio(char* dir, tLengthFormat, tLinkDestination, tListHidden, t
 
 void Cmd_dir(char *tr[], dirParams *params)
 {
+	if (tr[1] == NULL) return;
 	bool listdirs = (strcmp(tr[1], "-d") == 0);
 	
 	int i = 1;
@@ -75,41 +77,45 @@ char *ConvierteModo (mode_t m, char *permisos) {
 
 void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo) {
 	struct stat st;
-	if ((linkinfo ==LINK && stat(path, &st) == -1) || (linkinfo == NOLINK && lstat(path, &st) == -1)) {
+	if (lstat(path, &st) == -1) {
 		perror(path);
 		return;
 	}
 	
-	char *trozos[PATH_MAX/2];
+	char target[PATH_MAX];
+	ssize_t len;
+	if (S_ISLNK(st.st_mode) && linkinfo == LINK) {
+		len = readlink(path, target, sizeof(target) - 1);
+	}
+	
+	char *trozos[PATH_MAX/2];					//do not call trocearcadena if you want to use path after!!! it modifies it!
 	int i = trocearCadena(path, trozos, "\\/");
 	
 	if (longfmt == SHORT) {
-		printf("%9ld %s \n", (long) st.st_size, trozos[i - 1]);
-		return;
+		printf("%9ld %s", (long) st.st_size, trozos[i - 1]);
+	}
+	else {
+		char timebuf[64];
+		struct tm *tm = localtime(&st.st_mtime);
+		strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M", tm);
+		
+		char permisos[12];
+		ConvierteModo(st.st_mode, permisos);
+		
+		struct passwd *pwd;
+		struct group *grp;
+		pwd = getpwuid(st.st_uid);
+		grp = getgrgid(st.st_gid);
+		
+		printf("%s %3ld (%ld) %s %s %s %8ld %s", timebuf, (long) st.st_nlink, st.st_ino, pwd!=NULL?pwd->pw_name:"????????", grp!=NULL?grp->gr_name:"????????", permisos, (long) st.st_size, trozos[i - 1]);
 	}
 	
-	char timebuf[64];
-	struct tm *tm = localtime(&st.st_mtime);
-	strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M", tm);
-	
-	char permisos[12];
-	ConvierteModo(st.st_mode, permisos);
-	
-	struct passwd pwd;
-	struct group grp;
-	pwd = *getpwuid(st.st_uid);
-	grp = *getgrgid(st.st_gid);
-	
-	printf("%s %3ld (%ld) %s %s %s %8ld %s\n",	timebuf, (long) st.st_nlink, st.st_ino, pwd.pw_name, grp.gr_name, permisos, (long) st.st_size, trozos[i - 1]);
-	
-	if (S_ISLNK(st.st_mode) && linkinfo) {
-		char target[PATH_MAX];
-		ssize_t len = readlink(path, target, sizeof(target) - 1);
-		if (len != -1) {
-			target[len] = '\0';
-			printf(" -> %s\n", target);
-		}
+	if (S_ISLNK(st.st_mode) && linkinfo == LINK && len != -1) {
+		target[len] = '\0';
+		printf(" -> %s", target);
 	}
+	
+	printf("\n");
 }
 
 #define SKIP_FILE_CONDITIONS (showhid == NOHID && entry->d_name[0] == '.') || (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
