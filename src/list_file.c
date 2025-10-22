@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include "list.h"
 
 void  file_createEmpty  (tFileList* l) {
@@ -9,13 +10,17 @@ void  file_clear        (tFileList* l) {
 }
 void  file_add          (tFileList* l, tFile f)
 {
-    if (l->last == LNULL || l->last + 1 >= LIST_LENGTH) {
+    if (l->last == LNULL ) {
         l->last = 0;
         l->contents[0] = f;
         return;
     }
+    if (l->last + 1 >= LIST_LENGTH) {
+        fprintf(stderr, "maximum number of open files reached\n");
+        return;
+    }
 
-    for (int i = 0; i < l->last; i++) {
+    for (int i = 0; i <= l->last; i++) {
         if (l->contents[i].descriptor < f.descriptor) {
             for (int j = l->last; j >= i; j++) {
                 l->contents[j + 1] = l->contents[j];
@@ -30,6 +35,7 @@ void  file_add          (tFileList* l, tFile f)
     l->contents[l->last] = f;
 }
 void  file_remove       (tFileList* l, int index) {
+    if (l->last == LNULL || index < 0 || index > l->last) return;
     for (int i = index; i < l->last; i++) {
         l->contents[i] = l->contents[i + 1];
     }
@@ -57,6 +63,7 @@ int   file_count (tFileList l) {
 }
 
 int   file_find_descriptor (tFileList l, tDescriptor df) {
+    if (l.last == LNULL) return LNULL;
     for (int i = 0; i <= l.last; i++) {
         if (l.contents[i].descriptor == df) return i;
         //if (l.contents[i].descriptor > df)  return LNULL;
@@ -64,6 +71,7 @@ int   file_find_descriptor (tFileList l, tDescriptor df) {
     return LNULL;
 }
 int   file_find_name       (tFileList l, tName name) {
+    if (l.last == LNULL) return LNULL;
     for (int i = 0; i <= l.last; i++)
         if (!strcmp(l.contents[i].name, name)) return i;
     return LNULL;

@@ -1,12 +1,13 @@
 #include "commands.h"
 #include "main.h"
 #include "trocearCadena.h"
+#include <stdio.h>
 #include <math.h>
 
 void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams *params)
 {
     if (tr[1] == NULL) {
-        for (int i = cmd_first(*cl); i < cmd_last(*cl); i = cmd_next(*cl, i))
+        for (int i = cmd_first(*cl); i != LNULL && i < cmd_last(*cl); i = cmd_next(*cl, i))
             printf("%d->%s", i, *cmd_get(cl, i));
         return;
     }
@@ -24,12 +25,18 @@ void Cmd_historic(char * tr[], tFileList * fl, tCommandList * cl, dirParams *par
         int i = cmd_last(*cl) + N;
         if (i < cmd_first(*cl))
             i = cmd_first(*cl);
-        for (; i < cmd_last(*cl); i = cmd_next(*cl, i))
+        for (; i != LNULL && i <= cmd_last(*cl); i = cmd_next(*cl, i))
             printf("%d->%s", i, *cmd_get(cl, i));
     }
     else
-        if (N <= cmd_last(*cl))
-            executeCommand(*cmd_get(cl, N), fl, cl, params);
+        if (N <= cmd_last(*cl) && N >= 0) {
+            char* cmd = *cmd_get(cl, N);
+            if (strncmp(cmd, "historic", 8) == 0) {
+                fprintf(stderr, "historic: cannot re-execute 'historic' command to avoid infinite loop\n");
+                return;
+            }
+            executeCommand(cmd, fl, cl, params);
+        }
         else
             perror("command does not exist");
 }

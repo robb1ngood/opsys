@@ -3,6 +3,10 @@
 void Cmd_open (char * tr[], tFileList *list) {
     int i, df, mode=0;
 
+    if (list == NULL) {
+        Cmd_listopen(tr, list);
+        return;
+    }
     if (tr[1]==NULL) { /*no hay parametro*/
         Cmd_listopen(tr, list);
         return;
