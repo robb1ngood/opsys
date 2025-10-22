@@ -52,10 +52,7 @@ void printPrompt() {
 	int i;
 	if (getcwd(cwd, sizeof (cwd)) != NULL)
 		i = trocearCadena(cwd, cwd_trozos, "\\/");
-	else {
-		perror("getcwd");
-		return;
-	}
+	else perror("getcwd");
 	
 	printf("%s@%s{%s} %%) ", sysinfo.sysname, sysinfo.nodename, cwd_trozos[i - 1]);
 }
