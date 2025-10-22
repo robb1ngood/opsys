@@ -16,7 +16,6 @@
 #include <limits.h>
 #include <grp.h>
 #include <pwd.h>
-#include <errno.h>
 
 /* Forward declarations */
 void ListarFichero(char *path, tLengthFormat, tLinkDestination);

@@ -4,7 +4,7 @@
 
 #include "types.h"
 
-#define LIST_LENGTH 1000
+#define LIST_LENGTH 4096
 #define LNULL -1
 
 typedef struct tListA tFileList;
