@@ -27,7 +27,6 @@ void Cmd_dup (char * tr[], tFileList *fl)
 		int pos = file_find_descriptor(*fl, df);
 		if (pos == LNULL || pos < 0 || pos > fl->last) {
 			perror("imposible duplicar descriptor");
-			close(duplicado);
 			return;
 		}
 		snprintf(aux, sizeof(aux), "dup %d (%s)", df, file_get(*fl, pos).name);
