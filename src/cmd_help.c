@@ -21,7 +21,7 @@ void Cmd_help(char* tr[]) {
 
 	else if (!strcmp(tr[1], "historic")) printf("%s\t%s\n", "[-clear|-count|-N|N]", "Shows the historic of commands executed by this shell\n\t-clear: erases the historic of commands\n\t-count: prints the size of the historic\n\t-N: shows the last N commands\n\tN: repeats the Nth command");
 
-	else if (!strcmp(tr[1], "open"))     printf("%s\t%s\n", "fich m1 m2...", "opens the file fich, and adds it to the shell's open file list\nm1, m2.. is the mode (bitwise OR of the following)\n"
+	else if (!strcmp(tr[1], "open"))     printf("%s\t\n", "opens the file fich, and adds it to the shell's open file list\nopen [name] and the mode (bitwise OR of the following)\n"
 			"\tcr: O_CREAT"		"\tap: O_APPEND\n"
 			"\tex: O_EXCL"		"\tro: O_RDONLY\n"
 			"\trw: O_RDWR"      "\two: O_WRONLY\n"

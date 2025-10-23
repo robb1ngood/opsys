@@ -22,7 +22,7 @@ void  file_add          (tFileList* l, tFile f)
 
     for (int i = 0; i <= l->last; i++) {
         if (l->contents[i].descriptor < f.descriptor) {
-            for (int j = l->last; j >= i; j++) {
+            for (int j = l->last; j >= i; j--) {
                 l->contents[j + 1] = l->contents[j];
             }
             l->contents[i] = f;
