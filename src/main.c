@@ -64,35 +64,39 @@ void readCommand(tCmd command) {
 	if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL) exit(0);
 }
 
+#define command(name, function) else if (!strcmp(tr[0], name))  function
+
 void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *params) {
-	char *trozos[MAX_COMMAND_LENGTH];
-	trocearCadena(current, trozos, " \n\t");
-	if (trozos[0]==NULL)
+	char *tr[MAX_COMMAND_LENGTH];
+	trocearCadena(current, tr, " \n\t");
+	
+	if (tr[0]==NULL)
 		return;
+	command("authors",  Cmd_authors )(tr);
+	command("getpid",   Cmd_getpid  )(tr);
+	command("chdir",    Cmd_chdir   )(tr);
+	command("getcwd",   Cmd_getcwd  )(tr);
+	command("date",     Cmd_date    )(tr);
+	command("hour",     Cmd_hour    )(tr);
+	command("historic", Cmd_historic)(tr, fl, cl, params);
+	command("open",     Cmd_open    )(tr, fl);
+	command("close",    Cmd_close   )(tr, fl);
+	command("dup",      Cmd_dup     )(tr, fl);
+	command("listopen", Cmd_listopen)(tr, fl);
+	command("infosys",  Cmd_infosys )(tr);
+	command("help",     Cmd_help    )(tr);
+	command("quit",     Cmd_quit    )(tr);
+	command("exit",     Cmd_quit    )(tr);
+	command("bye",      Cmd_quit    )(tr);
 
-	if (!strcmp(trozos[0], "authors"))  Cmd_authors     (trozos);
-	if (!strcmp(trozos[0], "getpid"))   Cmd_getpid      (trozos);
-	if (!strcmp(trozos[0], "chdir"))    Cmd_chdir       (trozos);
-	if (!strcmp(trozos[0], "getcwd"))   Cmd_getcwd      (trozos);
-	if (!strcmp(trozos[0], "date"))     Cmd_date        (trozos);
-	if (!strcmp(trozos[0], "hour"))     Cmd_hour        (trozos);
-	if (!strcmp(trozos[0], "historic")) Cmd_historic    (trozos, fl, cl, params);
-	if (!strcmp(trozos[0], "open"))     Cmd_open        (trozos, fl);
-	if (!strcmp(trozos[0], "close"))    Cmd_close       (trozos, fl);
-	if (!strcmp(trozos[0], "dup"))      Cmd_dup         (trozos, fl);
-	if (!strcmp(trozos[0], "listopen")) Cmd_listopen    (trozos, fl);
-	if (!strcmp(trozos[0], "infosys"))  Cmd_infosys     (trozos);
-	if (!strcmp(trozos[0], "help"))     Cmd_help        (trozos);
-	if (!strcmp(trozos[0], "quit"))     Cmd_quit        (trozos);
-	if (!strcmp(trozos[0], "exit"))     Cmd_quit        (trozos);
-	if (!strcmp(trozos[0], "bye"))      Cmd_quit        (trozos);
-
-	if (!strcmp(trozos[0], "create"))       Cmd_create      (trozos);
-	if (!strcmp(trozos[0], "setdirparams")) Cmd_setdirparams(trozos, params);
-	if (!strcmp(trozos[0], "getdirparams")) Cmd_getdirparams(trozos, params);
-	if (!strcmp(trozos[0], "dir"))          Cmd_dir         (trozos, params);
-	if (!strcmp(trozos[0], "erase"))        Cmd_erase       (trozos, fl);
-	if (!strcmp(trozos[0], "delrec"))       Cmd_delrec      (trozos, fl);
-	if (!strcmp(trozos[0], "lseek"))        Cmd_lseek       (trozos);
-	if (!strcmp(trozos[0], "writestr"))     Cmd_writestr    (trozos, fl);
+	command("create",       Cmd_create      )(tr);
+	command("setdirparams", Cmd_setdirparams)(tr, params);
+	command("getdirparams", Cmd_getdirparams)(tr, params);
+	command("dir",          Cmd_dir         )(tr, params);
+	command("erase",        Cmd_erase       )(tr, fl);
+	command("delrec",       Cmd_delrec      )(tr, fl);
+	command("lseek",        Cmd_lseek       )(tr);
+	command("writestr",     Cmd_writestr    )(tr, fl);
 }
+
+#undef command

@@ -1,40 +1,29 @@
 #include "commands.h"
 #include <time.h>
 
-void print_hour();
-void print_date();
+#define print_time(buff, ptr) do { strftime(buff, sizeof(buff), "%H:%M:%S", ptr); printf("%s\n", buff); } while(0)
+#define print_date(buff, ptr) do { strftime(buff, sizeof(buff), "%d/%m/%Y", ptr); printf("%s\n", buff); } while(0)
 
-void Cmd_date (char * tr[]) {
-    if (tr[1] == NULL) {
-        print_date();
-        print_hour();
-        return;
-    }
+void Cmd_date(char *tr[]) {
+	char buff[80];
+	time_t t = time(NULL);
+	struct tm *ptr = localtime(&t);
+	
+	if (tr[1] == NULL) {
+		print_date(buff, ptr);
+		print_time(buff, ptr);
+	}
 
-    for (int i = 1; tr[i] != NULL; i++) {
-        if (!strcmp(tr[i], "-t")) print_hour();
-        if (!strcmp(tr[i], "-d")) print_date();
-    }
+	for (int i = 1; tr[i] != NULL && i <= 2; i++) {
+		if (!strcmp(tr[i], "-t")) print_time(buff, ptr);
+		if (!strcmp(tr[i], "-d")) print_date(buff, ptr);
+	}
 }
 
-void Cmd_hour (char * tr[]) {
-    (void)tr;
-    print_hour();
-}
-
-void print_hour() {
-    time_t t;
-    t = time(NULL);
-    struct tm* ptr = localtime(&t);
-    char str[80];
-    strftime(str, sizeof(str), "%H:%M:%S", ptr);
-    printf("%s\n", str);
-}
-void print_date() {
-    time_t t;
-    t = time(NULL);
-    struct tm* ptr = localtime(&t);
-    char str[80];
-    strftime(str, sizeof(str), "%d/%m/%Y", ptr);
-    printf("%s\n", str);
+void Cmd_hour(char *argv[]) {
+	char buff[80];
+	time_t t = time(NULL);
+	struct tm *ptr = localtime(&t);
+	
+	print_time(buff, ptr);
 }
