@@ -14,17 +14,31 @@ typedef struct {
     tName name;
 } tFile;
 
+
 typedef char tCmd[MAX_COMMAND_LENGTH];
 
-typedef enum { LONG, SHORT } tLengthFormat;
-typedef enum { LINK, NOLINK } tLinkDestination;
-typedef enum { HID, NOHID } tListHidden;
-typedef enum { RECA, RECB, NOREC } tRecursiveMode;
+
+typedef enum { LONG, SHORT } 		tLengthFormat;
+typedef enum { LINK, NOLINK } 		tLinkDestination;
+typedef enum { HID, NOHID } 		tListHidden;
+typedef enum { RECA, RECB, NOREC }  tRecursiveMode;
 typedef struct {
     tLengthFormat lengthFormat;
     tLinkDestination linkDestination;
     tListHidden listHidden;
     tRecursiveMode recursiveMode;
 } dirParams;
+
+
+typedef ???? tMemAdress;
+typedef size_t tMemSize;
+typedef ???? tMemTime;
+typedef enum { T_MALLOC, T_SHARED, T_MAPPED } tMemType;
+typedef struct {
+	tMemAdress adress;
+	tMemSize size;
+	tMemTime time;
+	tMemType type;
+}
 
 #endif

@@ -66,7 +66,7 @@ void readCommand(tCmd command) {
 
 #define command(name, function) else if (!strcmp(tr[0], name))  function
 
-void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *params) {
+void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *ml, dirParams *params) {
 	char *tr[MAX_COMMAND_LENGTH];
 	trocearCadena(current, tr, " \n\t");
 	
@@ -78,7 +78,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *pa
 	command("getcwd",   Cmd_getcwd  )(tr);
 	command("date",     Cmd_date    )(tr);
 	command("hour",     Cmd_hour    )(tr);
-	command("historic", Cmd_historic)(tr, fl, cl, params);
+	command("historic", Cmd_historic)(tr, fl, cl, ml, params);
 	command("open",     Cmd_open    )(tr, fl);
 	command("close",    Cmd_close   )(tr, fl);
 	command("dup",      Cmd_dup     )(tr, fl);
@@ -97,6 +97,19 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, dirParams *pa
 	command("delrec",       Cmd_delrec      )(tr, fl);
 	command("lseek",        Cmd_lseek       )(tr);
 	command("writestr",     Cmd_writestr    )(tr, fl);
+	
+	command("malloc",    Cmd_malloc   )(tr, ml);
+	command("mmap",      Cmd_mmap     )(tr, fl, ml);
+	command("shared",    Cmd_shared   )(tr, ml);
+	command("free",      Cmd_free     )(tr, ml);
+	command("memfill",   Cmd_memfill  )(tr);
+	command("memdump",   Cmd_memdump  )(tr);
+	command("mem",       Cmd_mem      )(tr, ml);
+	command("readfile",  Cmd_readfile )(tr, ml);
+	command("writefile", Cmd_writefile)(tr, ml);
+	command("read",      Cmd_read     )(tr, fl, ml);
+	command("write",     Cmd_write    )(tr, fl, ml);
+	command("recurse",   Cmd_recurse  )(tr);
 }
 
 #undef command
