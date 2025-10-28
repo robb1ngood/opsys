@@ -6,7 +6,7 @@
 void Cmd_dup (int n, char * tr[], tFileList *fl)
 {
 	if (tr[1]==NULL) { /*no hay parametro*/
-		Cmd_listopen(tr, fl);
+		Cmd_listopen(n, tr, fl);
 		return;
 	}
 	

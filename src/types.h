@@ -5,6 +5,8 @@
 #define MAX_COMMAND_LENGTH 128
 #define NAME_LENGTH_LIMIT 20
 
+#include <stddef.h>
+
 typedef int tDescriptor;
 typedef int tMode;
 typedef char tName[NAME_LENGTH_LIMIT];
@@ -30,15 +32,15 @@ typedef struct {
 } dirParams;
 
 
-typedef ???? tMemAdress;
+typedef int tMemAdress;
 typedef size_t tMemSize;
-typedef ???? tMemTime;
+typedef int tMemTime;
 typedef enum { T_MALLOC, T_SHARED, T_MAPPED } tMemType;
 typedef struct {
 	tMemAdress adress;
 	tMemSize size;
 	tMemTime time;
 	tMemType type;
-}
+} tMem;
 
 #endif

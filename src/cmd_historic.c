@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 
-void Cmd_historic(int n, char *tr[], tFileList *fl, tCommandList *cl, tMemoryList *ml dirParams *params)
+void Cmd_historic(int n, char *tr[], tFileList *fl, tCommandList *cl, tMemoryList *ml, dirParams *params)
 {
     if (tr[1] == NULL) {
         for (int i = cmd_first(*cl); i != LNULL && i < cmd_last(*cl); i = cmd_next(*cl, i))

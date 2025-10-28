@@ -23,6 +23,9 @@ int main(void) {
 
 	tCommandList commandList;
 	cmd_createEmpty(&commandList);
+	
+	tMemoryList memList;
+	mem_createEmpty(&memList);
 
 	dirParams params = {
 		SHORT,
@@ -36,7 +39,7 @@ int main(void) {
 		printPrompt();
 		readCommand(command);
 		cmd_add(&commandList, command);
-		executeCommand(command, &fileList, &commandList, &params);
+		executeCommand(command, &fileList, &commandList, &memList, &params);
 	}
 }
 

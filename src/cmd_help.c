@@ -4,7 +4,7 @@
 
 void Cmd_help(int n, char* tr[]) {
 	if (tr[1] == NULL) {
-		printf("'help [cmd|-lt|-T topic|-all]' help for commands\n\tComandos disponibles:\n- authors\n- getpid\n- chdir\n- getcwd\n- date\n- hour\n- historic\n- open\n- close\n- dup\n- listopen\n- infosys\n- help\n- quit\n- exit\n- bye\n- create\n- setdirparams\n- getdirparams\n- dir\n- erase\n- delrec\n- lseek\n- writestr\n");
+		printf("'help [cmd|-lt|-T topic|-all]' help for commands\n\tComandos disponibles:\n- authors\n- getpid\n- chdir\n- getcwd\n- date\n- hour\n- historic\n- open\n- close\n- dup\n- listopen\n- infosys\n- help\n- quit\n- exit\n- bye\n- create\n- setdirparams\n- getdirparams\n- dir\n- erase\n- delrec\n- lseek\n- writestr\n- malloc\n- mmap\n- shared\n- free\n- memfill\n- memdump\n- mem\n- readfile\n- writefile\n- read\n- write\n- recurse\n");
 		return;
 	}
 
