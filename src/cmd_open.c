@@ -8,11 +8,11 @@ void Cmd_open(int n, char* tr[], tFileList* list) {
 		return;
 	}
 	for (i = 2; tr[i] != NULL; i++)
-		if (!strcmp(tr[i], "cr")) mode |= O_CREAT;
-		else if (!strcmp(tr[i], "ex")) mode |= O_EXCL;
-		else if (!strcmp(tr[i], "ro")) mode |= O_RDONLY;
-		else if (!strcmp(tr[i], "wo")) mode |= O_WRONLY;
-		else if (!strcmp(tr[i], "rw")) mode |= O_RDWR;
+			 if (!strcmp(tr[i],"cr")) mode|=O_CREAT;
+		else if (!strcmp(tr[i],"ex")) mode|=O_EXCL;
+		else if (!strcmp(tr[i],"ro")) mode|=O_RDONLY;
+		else if (!strcmp(tr[i],"wo")) mode|=O_WRONLY;
+		else if (!strcmp(tr[i],"rw")) mode|=O_RDWR;
 		else if (!strcmp(tr[i],"ap")) mode|=O_APPEND;
 		else if (!strcmp(tr[i],"tr")) mode|=O_TRUNC;
 		else {
