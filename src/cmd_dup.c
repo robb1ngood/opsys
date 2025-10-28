@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <limits.h>
 #define NAME_LENGHT_LIMIT PATH_MAX
-void Cmd_dup (char * tr[], tFileList *fl)
+void Cmd_dup (int n, char * tr[], tFileList *fl)
 {
 	if (tr[1]==NULL) { /*no hay parametro*/
 		Cmd_listopen(tr, fl);
@@ -13,11 +13,11 @@ void Cmd_dup (char * tr[], tFileList *fl)
 	char *endptr, aux[NAME_LENGHT_LIMIT];
 	int df = strtol(tr[1], &endptr, 10), duplicado;
 	if (fl == NULL || fl->last == LNULL) { //empty list
-		Cmd_listopen(tr, fl);
+		Cmd_listopen(n, tr, fl);
 		return;
 	}
 	if (tr[1] == endptr || df < 0) {/*parametro invalido*/
-		Cmd_listopen(tr, fl);		 /*o el descriptor es menor que 0*/
+		Cmd_listopen(n, tr, fl);	/*o el descriptor es menor que 0*/
 		return;
 	}
 

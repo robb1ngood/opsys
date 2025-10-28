@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "commands.h"
 
-void Cmd_getcwd(char* trozos[]) {
+void Cmd_getcwd(int n, char* trozos[]) {
     char cwd[PATH_MAX];
 
     if (trozos[1] != NULL) {

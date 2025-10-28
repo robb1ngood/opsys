@@ -21,7 +21,7 @@
 void ListarFichero(char *path, tLengthFormat, tLinkDestination);
 void ListarDirectorio(char* dir, tLengthFormat, tLinkDestination, tListHidden, tRecursiveMode, int depth);
 
-void Cmd_dir(char *tr[], dirParams *params)
+void Cmd_dir(int n, char *tr[], dirParams *params)
 {
 	if (tr[1] == NULL) return;
 	bool listdirs = (strcmp(tr[1], "-d") == 0);

@@ -1,9 +1,9 @@
 #include "commands.h"
 
-void Cmd_setdirparams(char *tr[], dirParams *params) {
+void Cmd_setdirparams(int n, char *tr[], dirParams *params) {
 
     if (tr[1] == NULL) {
-        Cmd_getdirparams(tr, params);
+        Cmd_getdirparams(n, tr, params);
         return;
     }
 

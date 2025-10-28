@@ -7,7 +7,7 @@
 
 #define WRONG_ARGUMENT_ERROR { perror("lseek"); return; }
 
-void Cmd_lseek (char * tr[]) {
+void Cmd_lseek (int n, char * tr[]) {
     if (tr[1] == NULL || tr[2] == NULL || tr[3] == NULL)
         WRONG_ARGUMENT_ERROR;
 	

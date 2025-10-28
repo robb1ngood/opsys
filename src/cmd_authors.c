@@ -16,7 +16,7 @@ static const strAuthor AUTHORS[] = {
 
 static const int NUM_AUTHORS = 3;
 
-void Cmd_authors(char* trozos[]) {
+void Cmd_authors(int n, char* trozos[]) {
     if (trozos[1] == NULL) {
         for (int i = 0; i < NUM_AUTHORS; i++) {
             printf("%25s:%30s\n", AUTHORS[i].name, AUTHORS[i].login);

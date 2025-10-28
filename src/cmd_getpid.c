@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "commands.h"
 
-void Cmd_getpid(char* trozos[]) {
+void Cmd_getpid(int n, char* trozos[]) {
     if (trozos[1] == NULL) {
         printf("%d\n", (int)getpid());
     }

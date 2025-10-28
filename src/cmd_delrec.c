@@ -61,7 +61,7 @@ void delete_recursive(const char *target, tFileList *list) {
     }
 }
 
-void Cmd_delrec(char *tr[], tFileList *list) {
+void Cmd_delrec(int n, char *tr[], tFileList *list) {
     if (tr[1] == NULL) {
         fprintf(stderr, "delrec: missing operand\n");
         return;

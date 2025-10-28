@@ -1,6 +1,6 @@
 #include "commands.h"
 
-void Cmd_getdirparams(char *tr[], dirParams *params) {
+void Cmd_getdirparams(int n, char *tr[], dirParams *params) {
     printf("Length format: ");
     if (params->lengthFormat == LONG)
         printf("Long\n");

@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "commands.h"
 
-void Cmd_create(char *trozos[]) {
+void Cmd_create(int n, char *trozos[]) {
     if (trozos[1] == NULL) {
         fprintf(stderr, "create: missing operand\n");
         return;

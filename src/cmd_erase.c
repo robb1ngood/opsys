@@ -5,7 +5,7 @@
 #include "commands.h"
 #include "list.h"
 
-void Cmd_erase(char *tr[], tFileList *list) {
+void Cmd_erase(int n, char *tr[], tFileList *list) {
     if (tr[1] == NULL) {
         fprintf(stderr, "erase: missing operand\n");
         return;

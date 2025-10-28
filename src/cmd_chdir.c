@@ -4,7 +4,7 @@
 #include <limits.h>
 #include "commands.h"
 
-void Cmd_chdir(char *trozos[]) {
+void Cmd_chdir(int n, char *trozos[]) {
     char cwd[PATH_MAX];
 
     if (trozos[1] == NULL) {

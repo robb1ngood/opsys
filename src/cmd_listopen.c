@@ -1,7 +1,7 @@
 #include "commands.h"
 #include "list.h"
 
-void Cmd_listopen(char * tr[], tFileList *L)
+void Cmd_listopen(int n, char * tr[], tFileList *L)
 {
 	(void)tr;
     int current = file_first(*L);

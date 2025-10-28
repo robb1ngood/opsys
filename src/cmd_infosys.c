@@ -3,7 +3,7 @@
 #include <sys/utsname.h>
 #include "commands.h"
 
-void Cmd_infosys(char *trozos[]) {
+void Cmd_infosys(int n, char *trozos[]) {
     struct utsname sysinfo;
 
     if (trozos[1] != NULL) {

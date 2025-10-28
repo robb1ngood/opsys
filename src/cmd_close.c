@@ -1,17 +1,17 @@
 #include <unistd.h>
 #include "commands.h"
 
-void Cmd_close (char *tr[], tFileList *fl)
+void Cmd_close (int n, char *tr[], tFileList *fl)
 {
 	if (tr[1]==NULL) {	/*no hay parametro*/
-		Cmd_listopen(tr, fl);
+		Cmd_listopen(n, tr, fl);
 		return;
 	}
 	
 	char* endptr;
 	int df = strtol(tr[1], &endptr, 10);
 	if (tr[1] == endptr || df <= 2) {	/*parametro incorrecto*/
-		Cmd_listopen(tr, fl);
+		Cmd_listopen(n, tr, fl);
 		return;
 	}
 	

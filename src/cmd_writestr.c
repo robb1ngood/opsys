@@ -5,7 +5,7 @@
 #include "commands.h"
 #include "list.h"
 
-void Cmd_writestr(char *tr[], tFileList *list) {
+void Cmd_writestr(int n, char *tr[], tFileList *list) {
     if (tr[1] == NULL || tr[2] == NULL) {
         fprintf(stderr, "writestr: usage writestr <descriptor> <string>\n");
         return;
