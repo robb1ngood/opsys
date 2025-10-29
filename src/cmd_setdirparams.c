@@ -8,12 +8,12 @@ void Cmd_setdirparams(int n, char *tr[], dirParams *params) {
     }
 
     for (int i = 1; tr[i] != NULL; i++) {
-        if      (!strcmp(tr[i], "long"))   params->lengthFormat = LONG;
-        else if (!strcmp(tr[i], "short"))  params->lengthFormat = SHORT;
-        else if (!strcmp(tr[i], "link"))   params->linkDestination = LINK;
-        else if (!strcmp(tr[i], "nolink")) params->linkDestination = NOLINK;
-        else if (!strcmp(tr[i], "hid"))    params->listHidden = HID;
-        else if (!strcmp(tr[i], "nohid"))  params->listHidden = NOHID;
+        if      (!strcmp(tr[i], "long"))   params->lengthFormat = true;
+        else if (!strcmp(tr[i], "short"))  params->lengthFormat = false;
+        else if (!strcmp(tr[i], "link"))   params->linkDestination = true;
+        else if (!strcmp(tr[i], "nolink")) params->linkDestination = false;
+        else if (!strcmp(tr[i], "hid"))    params->listHidden = true;
+        else if (!strcmp(tr[i], "nohid"))  params->listHidden = false;
         else if (!strcmp(tr[i], "reca"))   params->recursiveMode = RECA;
         else if (!strcmp(tr[i], "recb"))   params->recursiveMode = RECB;
         else if (!strcmp(tr[i], "norec"))  params->recursiveMode = NOREC;

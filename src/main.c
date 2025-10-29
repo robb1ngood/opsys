@@ -28,9 +28,9 @@ int main(void) {
 	mem_createEmpty(&memList);
 
 	dirParams params = {
-		SHORT,
-		NOLINK,
-		NOHID,
+		false,
+		false,
+		false,
 		NOREC
 	};
 

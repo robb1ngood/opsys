@@ -16,16 +16,16 @@ struct tListA {
 void  file_createEmpty		(tFileList*);
 void  file_clear			(tFileList*);
 void  file_add				(tFileList*, tFile);
-void  file_remove			(tFileList*, int index);
+void  file_remove			(tFileList*, int i);
 int   file_first			(tFileList);
 int   file_last				(tFileList);
-int   file_next				(tFileList, int);
-int   file_prev				(tFileList, int);
+int   file_next				(tFileList,  int i);
+int   file_prev				(tFileList,  int i);
 int   file_count			(tFileList);
-int   file_find_descriptor	(tFileList, tDescriptor);
-int   file_find_name		(tFileList, tName);
-tFile file_get				(tFileList, int);
-tFile file_createNode		(tDescriptor, tMode, tName);
+int   file_find_descriptor	(tFileList,  int df);
+int   file_find_name		(tFileList,  tName);
+tFile file_get				(tFileList,  int);
+tFile file_createNode		(int, int, tName);
 
 
 

@@ -18,8 +18,8 @@
 #include <pwd.h>
 
 /* Forward declarations */
-void ListarFichero(char *path, tLengthFormat, tLinkDestination);
-void ListarDirectorio(char* dir, tLengthFormat, tLinkDestination, tListHidden, tRecursiveMode, int depth);
+void ListarFichero(char *path, bool, bool);
+void ListarDirectorio(char* dir, bool, bool, bool, tRecursiveMode, int depth);
 
 void Cmd_dir(int n, char *tr[], dirParams *params)
 {
@@ -74,7 +74,7 @@ char *ConvierteModo (mode_t m, char *permisos) {
 	return permisos;
 }
 
-void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo) {
+void ListarFichero(char *path, bool longfmt, bool linkinfo) {
 	struct stat st;
 	if (lstat(path, &st) == -1) {
 		perror(path);
@@ -83,16 +83,14 @@ void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo)
 	
 	char target[PATH_MAX];
 	ssize_t len;
-	if (S_ISLNK(st.st_mode) && linkinfo == LINK) {
+	if (S_ISLNK(st.st_mode) && linkinfo)
 		len = readlink(path, target, sizeof(target) - 1);
-	}
 	
 	char *trozos[PATH_MAX/2];					//do not call trocearcadena if you want to use path after!!! it modifies it!
 	int i = trocearCadena(path, trozos, "\\/");
 	
-	if (longfmt == SHORT) {
+	if (!longfmt)
 		printf("%9ld %s", (long) st.st_size, trozos[i - 1]);
-	}
 	else {
 		char timebuf[64];
 		struct tm *tm = localtime(&st.st_mtime);
@@ -109,7 +107,7 @@ void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo)
 		printf("%s %3ld (%ld) %s %s %s %8ld %s", timebuf, (long) st.st_nlink, st.st_ino, pwd!=NULL?pwd->pw_name:"????????", grp!=NULL?grp->gr_name:"????????", permisos, (long) st.st_size, trozos[i - 1]);
 	}
 	
-	if (S_ISLNK(st.st_mode) && linkinfo == LINK && len != -1) {
+	if (S_ISLNK(st.st_mode) && linkinfo && len != -1) {
 		target[len] = '\0';
 		printf(" -> %s", target);
 	}
@@ -117,9 +115,9 @@ void ListarFichero(char *path, tLengthFormat longfmt, tLinkDestination linkinfo)
 	printf("\n");
 }
 
-#define SKIP_FILE_CONDITIONS ((showhid == NOHID && entry->d_name[0] == '.') || (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")))
+#define SKIP_FILE_CONDITIONS ((!showhid && entry->d_name[0] == '.') || (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")))
 
-void listdirRec(char *dir, DIR *dp, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth) {
+void listdirRec(char *dir, DIR *dp, bool longfmt, bool linkinfo, bool showhid, tRecursiveMode recmode, int depth) {
 	struct dirent *entry;
 	char path[PATH_MAX];
 	
@@ -138,7 +136,7 @@ void listdirRec(char *dir, DIR *dp, tLengthFormat longfmt, tLinkDestination link
 	}
 }
 
-void ListarDirectorio(char* dir, tLengthFormat longfmt, tLinkDestination linkinfo, tListHidden showhid, tRecursiveMode recmode, int depth) {
+void ListarDirectorio(char* dir, bool longfmt, bool linkinfo, bool showhid, tRecursiveMode recmode, int depth) {
 	DIR *dp;
 	struct dirent *entry;
 	char path[PATH_MAX];

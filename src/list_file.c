@@ -8,8 +8,7 @@ void  file_createEmpty  (tFileList* l) {
 void  file_clear        (tFileList* l) {
     l->last = LNULL;
 }
-void  file_add          (tFileList* l, tFile f)
-{
+void  file_add          (tFileList* l, tFile f) {
     if (l->last == LNULL ) {
         l->last = 0;
         l->contents[0] = f;
@@ -62,7 +61,7 @@ int   file_count (tFileList l) {
     return l.last + 1;
 }
 
-int   file_find_descriptor (tFileList l, tDescriptor df) {
+int   file_find_descriptor (tFileList l, int df) {
     if (l.last == LNULL) return LNULL;
     for (int i = 0; i <= l.last; i++) {
         if (l.contents[i].descriptor == df) return i;
@@ -81,7 +80,7 @@ int   file_find_name       (tFileList l, tName name) {
 tFile file_get        (tFileList l, int i) {
     return l.contents[i];
 }
-tFile file_createNode (tDescriptor df, tMode mode, tName name) {
+tFile file_createNode (int df, int mode, tName name) {
     tFile file;
     file.descriptor = df;
     file.mode = mode;
