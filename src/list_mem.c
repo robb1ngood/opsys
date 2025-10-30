@@ -11,7 +11,7 @@ void mem_clear		(tMemoryList* l) {
 void mem_add		(tMemoryList* l, tMem m) {
     if (l->last == LNULL ) {
         l->last = 0;
-        l->contents[0] = f;
+        l->contents[0] = m;
         return;
     }
     if (l->last + 1 >= LIST_LENGTH) {
@@ -20,7 +20,7 @@ void mem_add		(tMemoryList* l, tMem m) {
     }
 
     for (int i = 0; i <= l->last; i++) {
-        if (l->contents[i].address < m.address) {
+        if (l->contents[i].adress < m.adress) {
             for (int j = l->last; j >= i; j--) {
                 l->contents[j + 1] = l->contents[j];
             }
@@ -31,7 +31,7 @@ void mem_add		(tMemoryList* l, tMem m) {
     }
 
     l->last++;
-    l->contents[l->last] = f;
+    l->contents[l->last] = m;
 }
 void mem_remove		(tMemoryList* l, int index) {
     if (l->last == LNULL || index < 0 || index > l->last) return;
@@ -61,6 +61,6 @@ int  mem_count (tMemoryList l) {
     return l.last + 1;
 }
 
-tMem mem_get		(tMemoryList l, int i) {
+tMem mem_get (tMemoryList l, int i) {
     return l.contents[i];
 }

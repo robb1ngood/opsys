@@ -7,7 +7,8 @@ void Cmd_listopen(int n, char * tr[], tFileList *L)
     int current = file_first(*L);
     while(current != LNULL) {
         tFile item = file_get(*L, current);
-        printf("%3d %5d %s\n", item.descriptor, item.mode, item.name);
+		print_file(item);
+        printf("\n");
         current = file_next(*L, current);
     }
 }

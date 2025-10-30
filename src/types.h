@@ -16,6 +16,8 @@ typedef struct {
     tName name;
 } tFile;
 
+#define print_file(file) printf("%3d %5d %s", file.descriptor, file.mode, file.name)
+
 
 typedef char tCmd[MAX_COMMAND_LENGTH];
 
@@ -29,20 +31,28 @@ typedef struct {
 } dirParams;
 
 
-typedef void*	  tMemAdress;
-typedef size_t	  tMemSize;
-typedef struct tm tMemTime;
+
 typedef enum { T_MALLOC, T_SHARED, T_MAPPED } tMemType;
 typedef union {
 	int key;
 	tFile file;
 } tMemExtra;
 typedef struct {
-	tMemAdress adress;
-	tMemSize   size;
-	tMemTime   time;
+	void	  *adress;
+	size_t     size;
+	struct tm *time;
 	tMemType   type;
 	tMemExtra  extra;
 } tMem;
+
+#define print_mem(mem, timebuff) do {\
+	strftime(timebuff, sizeof(timebuff), "%H:%M:%S", mem.time);\
+	printf("%p %zu %s", mem.adress, mem.size, timebuff);\
+	switch (mem.type) {\
+		case T_MALLOC: printf("Malloc"); 								break;\
+		case T_SHARED: printf("Shared %d", mem.extra.key); 				break;\
+		case T_MAPPED: printf("Mapped "); print_file(mem.extra.file); 	break;\
+	}\
+} while(0)
 
 #endif

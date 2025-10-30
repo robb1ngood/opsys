@@ -1,5 +1,7 @@
 #include "commands.h"
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 #define print_funcs(p1, p2, p3, l1, l2, l3) do {\
 	printf("Program functions: %p, %p, %p\nLibrary functions: %p, %p, %p\n", p1, p2, p3, l1, l2, l3);\
@@ -14,9 +16,51 @@
 	printf(" -Automatic:            %p, %p, %p\n", &a1, &a2, &a3);\
 } while(0)
 	
-void print_blocks(tMemoryList ml) {}
+void print_blocks(tMemoryList ml) {
+	char timebuff[80];
+	for(int i = mem_first(ml); i < mem_last(ml); i = mem_next(ml, i)) {
+		print_mem(mem_get(ml, i), timebuff);
+		printf("\n");
+	}
+}
 
-void print_pmap() {}
+void print_pmap (void) {/*sin argumentos*/
+	pid_t pid;			/*hace el pmap (o equivalente) del proceso actual*/
+	char elpid[32];
+	char *argv[4]={"pmap", elpid, NULL};
+
+	sprintf (elpid, "%d", (int) getpid());
+	if ((pid = fork()) == -1) {
+		perror ("Imposible crear proceso");
+		return;
+	}
+	if (pid==0) {
+		if (execvp(argv[0],argv) == -1)
+			perror("cannot execute pmap (linux, solaris)");
+		
+		argv[0] = "procstat"; 
+		argv[1] = "vm";
+		argv[2] = elpid;
+		argv[3] = NULL;
+		if (execvp(argv[0], argv)==-1)/*No hay pmap, probamos procstat FreeBSD */
+			perror("cannot execute procstat (FreeBSD)");
+		
+		argv[0] = "procmap";
+		argv[1] = elpid;
+		argv[2] = NULL;
+		if (execvp(argv[0], argv)==-1)  /*probamos procmap OpenBSD*/
+			perror("cannot execute procmap (OpenBSD)");
+		
+		argv[0] = "vmmap";
+		argv[1] = "-interleave";
+		argv[2] = elpid;
+		argv[3] = NULL;
+		if (execvp(argv[0], argv)==-1) /*probamos vmmap Mac-OS*/
+			perror("cannot execute vmmap (Mac-OS)");
+		exit(1);
+	}
+	waitpid(pid, NULL, 0);
+}
 
 
 
