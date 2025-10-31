@@ -27,3 +27,6 @@ void Cmd_hour(int n, char *tr[]) {
 	
 	print_time(buff, ptr);
 }
+
+#undef print_time
+#undef print_date

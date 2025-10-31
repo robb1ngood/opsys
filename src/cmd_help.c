@@ -49,3 +49,5 @@ void Cmd_help(int n, char* tr[]) {
 	
 	else printf("%s not found\n", tr[1]);
 }
+
+#undef help

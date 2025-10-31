@@ -1,6 +1,6 @@
 #include "commands.h"
 #include "main.h"
-#include "trocearCadena.h"
+#include "misc.h"
 #include <stdio.h>
 #include <math.h>
 

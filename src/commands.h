@@ -40,7 +40,7 @@ void Cmd_free        (int, char *tr[], tMemoryList*);
 void Cmd_memfill     (int, char *tr[]);
 void Cmd_memdump     (int, char *tr[]);
 void Cmd_mem         (int, char *tr[], tMemoryList*);
-void Cmd_readfile    (int, char *tr[], tMemoryList*);
+void Cmd_readfile    (int, char *tr[]);
 void Cmd_writefile   (int, char *tr[], tMemoryList*);
 void Cmd_read        (int, char *tr[], tFileList*, tMemoryList*);
 void Cmd_write       (int, char *tr[], tFileList*, tMemoryList*);

@@ -10,7 +10,7 @@
 
 #include "commands.h"
 #include "list.h"
-#include "trocearCadena.h"
+#include "misc.h"
 #include "types.h"
 #include "main.h"
 
@@ -108,7 +108,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("memfill",   Cmd_memfill  )(n, tr);
 	command("memdump",   Cmd_memdump  )(n, tr);
 	command("mem",       Cmd_mem      )(n, tr, ml);
-	command("readfile",  Cmd_readfile )(n, tr, ml);
+	command("readfile",  Cmd_readfile )(n, tr);
 	command("writefile", Cmd_writefile)(n, tr, ml);
 	command("read",      Cmd_read     )(n, tr, fl, ml);
 	command("write",     Cmd_write    )(n, tr, fl, ml);

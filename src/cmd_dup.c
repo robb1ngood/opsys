@@ -2,7 +2,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <limits.h>
-#define NAME_LENGHT_LIMIT PATH_MAX
+
+
 void Cmd_dup (int n, char * tr[], tFileList *fl)
 {
 	if (tr[1]==NULL) { /*no hay parametro*/
@@ -10,7 +11,7 @@ void Cmd_dup (int n, char * tr[], tFileList *fl)
 		return;
 	}
 	
-	char *endptr, aux[NAME_LENGHT_LIMIT];
+	char *endptr, aux[PATH_MAX];
 	int df = strtol(tr[1], &endptr, 10), duplicado;
 	if (fl == NULL || fl->last == LNULL) { //empty list
 		Cmd_listopen(n, tr, fl);
