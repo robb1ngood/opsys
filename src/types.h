@@ -46,12 +46,12 @@ typedef struct {
 } tMem;
 
 #define print_mem(mem, timebuff) do {\
-	strftime(timebuff, sizeof(timebuff), "%H:%M:%S", mem.time);\
-	printf("%p %zu %s", mem.adress, mem.size, timebuff);\
+	strftime(timebuff, sizeof(timebuff), "%b %e %H:%M", mem.time);\
+	printf("     %p %13zu %s ", mem.adress, mem.size, timebuff);\
 	switch (mem.type) {\
-		case T_MALLOC: printf("Malloc"); 								break;\
-		case T_SHARED: printf("Shared %d", mem.extra.key); 				break;\
-		case T_MAPPED: printf("Mapped "); print_file(mem.extra.file); 	break;\
+		case T_MALLOC: printf("malloc"); 								break;\
+		case T_SHARED: printf("shared (key %d)", mem.extra.key); 		break;\
+		case T_MAPPED: printf("mapped "); print_file(mem.extra.file); 	break;\
 	}\
 } while(0)
 

@@ -17,8 +17,12 @@
 } while(0)
 	
 void print_blocks(tMemoryList ml) {
+	printf("******List of assigned blocks for process %d\n", (int)getpid());
 	char timebuff[80];
-	for(int i = mem_first(ml); i < mem_last(ml); i = mem_next(ml, i)) {
+	if (ml.last == LNULL) {
+		return;
+	}
+	for(int i = 0; i <= ml.last; i++) {
 		print_mem(mem_get(ml, i), timebuff);
 		printf("\n");
 	}
