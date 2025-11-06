@@ -27,14 +27,13 @@ static int find_shared_key(tMemoryList *ml, key_t key) {
 // Prints all shared memory blocks.
 static void list_shared_blocks(tMemoryList *ml) {
     printf("******List of shared assigned blocks for process %d\n", (int)getpid());
-    char timebuff[80];
     if (ml->last == LNULL) {
         return;
     }
     for (int i = 0; i <= ml->last; i++) {
         tMem mem = mem_get(*ml, i);
         if (mem.type == T_SHARED) {
-            print_mem(mem, timebuff);
+            print_mem(mem);
             printf("\n");
         }
     }
@@ -55,14 +54,7 @@ static void shared_create(key_t key, size_t size, tMemoryList *ml) {
         return;
     }
 
-    tMem mem;
-    mem.adress = addr;
-    mem.size = size;
-    mem.type = T_SHARED;
-    mem.extra.key = key;
-    time_t now = time(NULL);
-    mem.time = localtime(&now);
-
+    tMem mem = mem_createNode(addr, size, time(NULL), T_SHARED, (void *)&key);
     mem_add(ml, mem);
     printf("Assigned %zu bytes at %p\n", size, addr);
 }
@@ -90,14 +82,7 @@ static void shared_attach(key_t key, tMemoryList *ml) {
         return;
     }
 
-    tMem mem;
-    mem.adress = addr;
-    mem.size = buf.shm_segsz;
-    mem.type = T_SHARED;
-    mem.extra.key = key;
-    time_t now = time(NULL);
-    mem.time = localtime(&now);
-
+    tMem mem = mem_createNode(addr, buf.shm_segsz, time(NULL), T_SHARED, (void *)&key);
     mem_add(ml, mem);
     printf("Shared memory with key %d at %p\n", (int)key, addr);
 }

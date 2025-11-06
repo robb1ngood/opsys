@@ -65,4 +65,7 @@ int  mem_prev		(tMemoryList, int);
 int  mem_count		(tMemoryList);
 tMem mem_get		(tMemoryList, int);
 
+tMem mem_createNode(void *adress, size_t size, time_t time, tMemType type, void *extra);
+void print_mem(tMem mem);
+
 #endif

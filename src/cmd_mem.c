@@ -18,12 +18,11 @@
 	
 void print_blocks(tMemoryList ml) {
 	printf("******List of assigned blocks for process %d\n", (int)getpid());
-	char timebuff[80];
 	if (ml.last == LNULL) {
 		return;
 	}
 	for(int i = 0; i <= ml.last; i++) {
-		print_mem(mem_get(ml, i), timebuff);
+		print_mem(mem_get(ml, i));
 		printf("\n");
 	}
 }
@@ -68,26 +67,14 @@ void print_pmap (void) {/*sin argumentos*/
 
 
 
-double var1;
-double var2;
-double var3;
-
-double var4 = 2.5;
-double var5 = 67.2;
-double var6 = 0;
+double var1, var2, var3;
+double var4 = 2.5, var5 = 67.2, var6 = 0;
 
 void Cmd_mem(int n, char *tr[], tMemoryList *ml) {
-	static int var7;
-	static int var8;
-	static int var9;
 	
-	static int var10 = 15;
-	static int var11 = 27;
-	static int var12 = 42;
-	
-	char var13 = 'd';
-	char var14 = 'a';
-	char var15 = 'Z';
+	static int var7, var8, var9;
+	static int var10 = 15, var11 = 27, var12 = 42;
+	char var13 = 'd', var14 = 'a', var15 = 'Z';
 	
 	
 	if(n <= 1 || !strcmp(tr[1], "-all")) {

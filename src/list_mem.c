@@ -64,3 +64,29 @@ int  mem_count (tMemoryList l) {
 tMem mem_get (tMemoryList l, int i) {
     return l.contents[i];
 }
+
+tMem mem_createNode(void *adress, size_t size, time_t time, tMemType type, void *extra) {
+	tMem new;
+	new.adress = adress;
+	new.size = size;
+	new.time = time;
+	new.type = type;
+	switch(type) {
+		case T_MALLOC: break;
+		case T_SHARED: new.extra.key = *(int *)extra; break;
+		case T_MAPPED: new.extra.file = *(tFile *)extra; break;
+	}
+	return new;
+}
+
+void print_mem(tMem mem) {
+	char timebuff[80];
+	struct tm *tm = localtime(&mem.time);
+	strftime(timebuff, sizeof(timebuff), "%b %e %H:%M", tm);
+	printf("     %p %13zu %s ", mem.adress, mem.size, timebuff);
+	switch (mem.type) {
+		case T_MALLOC: printf("malloc"); 								break;
+		case T_SHARED: printf("shared (key %d)", mem.extra.key); 		break;
+		case T_MAPPED: printf("mapped "); print_file(mem.extra.file); 	break;
+	}
+}
