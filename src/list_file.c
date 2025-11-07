@@ -49,7 +49,7 @@ int   file_last  (tFileList l) {
     return l.last;
 }
 int   file_next  (tFileList l, int i) {
-    if (i + 1 < l.last) return i + 1;
+    if (i + 1 <= l.last) return i + 1;
     else return LNULL;
 }
 int   file_prev  (tFileList l, int i) {

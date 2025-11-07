@@ -37,7 +37,7 @@ void Cmd_mmap(int n, char *tr[], tFileList *fl, tMemoryList *ml) {
 	
 	printf("******List of mapped blocks for process %d\n", (int)getpid());
 	tMem mem;
-	for(int i = mem_first(*ml); i != LNULL && i <= mem_last(*ml); i = mem_next(*ml, i)) {
+	for(int i = mem_first(*ml); i != LNULL; i = mem_next(*ml, i)) {
 		if((mem = mem_get(*ml, i)).type != T_MAPPED)
 			continue;
 		print_mem(mem);
