@@ -49,7 +49,7 @@ int  mem_last  (tMemoryList l) {
     return l.last;
 }
 int  mem_next  (tMemoryList l, int i) {
-    if (i + 1 < l.last) return i + 1;
+    if (i + 1 <= l.last) return i + 1;
     else return LNULL;
 }
 int  mem_prev  (tMemoryList l, int i) {

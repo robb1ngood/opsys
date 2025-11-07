@@ -12,14 +12,11 @@
 
 // Finds shared memory block in the list by its key.
 static int find_shared_key(tMemoryList *ml, key_t key) {
-    if (ml->last == LNULL) {
-        return LNULL;
-    }
-    for (int i = 0; i <= ml->last; i++) {
-        tMem mem = mem_get(*ml, i);
-        if (mem.type == T_SHARED && mem.extra.key == key) {
+	tMem mem;
+    for (int i = mem_first(*ml); i != LNULL && i <= mem_last(*ml); i = mem_next(*ml, i)) {
+        mem = mem_get(*ml, i);
+        if (mem.type == T_SHARED && mem.extra.key == key)
             return i;
-        }
     }
     return LNULL;
 }
@@ -27,15 +24,12 @@ static int find_shared_key(tMemoryList *ml, key_t key) {
 // Prints all shared memory blocks.
 static void list_shared_blocks(tMemoryList *ml) {
     printf("******List of shared assigned blocks for process %d\n", (int)getpid());
-    if (ml->last == LNULL) {
-        return;
-    }
-    for (int i = 0; i <= ml->last; i++) {
-        tMem mem = mem_get(*ml, i);
-        if (mem.type == T_SHARED) {
-            print_mem(mem);
-            printf("\n");
-        }
+	tMem mem;
+    for (int i = mem_first(*ml); i != LNULL && i <= mem_last(*ml); i = mem_next(*ml, i)) {
+        if ((mem = mem_get(*ml, i)).type != T_SHARED)
+				continue;
+		print_mem(mem);
+		printf("\n");
     }
 }
 
