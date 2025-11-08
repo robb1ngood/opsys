@@ -3,7 +3,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 
-void free_file(char *file);
+void free_file(char *file, tFileList*, tMemoryList*);
 void *map_file(char *file, int protection, tFileList*, tMemoryList*);
 
 void Cmd_mmap(int n, char *tr[], tFileList *fl, tMemoryList *ml) {
@@ -15,7 +15,7 @@ void Cmd_mmap(int n, char *tr[], tFileList *fl, tMemoryList *ml) {
 		
 		if (!strcmp(tr[1], "-free")) {
 			if(tr[2] != NULL)
-				free_file(tr[2]);
+				free_file(tr[2], fl, ml);
 			else
 				fprintf(stderr, "usage: mmap -free <mapped file name>\n");
 			return;
@@ -47,8 +47,26 @@ void Cmd_mmap(int n, char *tr[], tFileList *fl, tMemoryList *ml) {
 }
 
 
-void free_file(char *file) {
-	fprintf(stderr, "freeing memory not implemented\n");
+void free_file(char *file, tFileList *fl, tMemoryList *ml) {
+	tMem mem;
+	int df = -1;
+	for(int i = mem_first(*ml); i != LNULL; i = mem_next(*ml, i)) {
+		mem = mem_get(*ml, i);
+		if(mem.type == T_MAPPED && !strcmp(file, mem.extra.file.name)) {
+			if(munmap(mem.adress, mem.size) == -1) {
+				perror("unmap");
+				return;
+			}
+			mem_remove(ml, i);
+			df = mem.extra.file.descriptor;
+			break;
+		}
+	}
+	
+	if(df != -1)
+		file_remove(fl, file_find_descriptor(*fl, df));
+	else
+		fprintf(stderr, "file %s was not mapped to memory\n", file);
 }
 void *map_file(char *file, int protection, tFileList *fl, tMemoryList *ml) {
 	

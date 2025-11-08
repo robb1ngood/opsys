@@ -83,10 +83,10 @@ void print_mem(tMem mem) {
 	char timebuff[80];
 	struct tm *tm = localtime(&mem.time);
 	strftime(timebuff, sizeof(timebuff), "%b %e %H:%M", tm);
-	printf("     %p %13zu %s ", mem.adress, mem.size, timebuff);
+	printf("\t%p %15zu %s ", mem.adress, mem.size, timebuff);
 	switch (mem.type) {
-		case T_MALLOC: printf("malloc"); 								break;
-		case T_SHARED: printf("shared (key %d)", mem.extra.key); 		break;
-		case T_MAPPED: printf("mapped "); print_file(mem.extra.file); 	break;
+		case T_MALLOC: printf("malloc"); break;
+		case T_SHARED: printf("shared (key %d)", mem.extra.key); break;
+		case T_MAPPED: printf("%s (descriptor %d)", mem.extra.file.name, mem.extra.file.descriptor); break;
 	}
 }
