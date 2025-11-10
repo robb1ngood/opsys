@@ -1,78 +1,67 @@
 #include <string.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include "list.h"
 
 void  file_createEmpty  (tFileList* l) {
-    l->last = LNULL;
+	for (int i = 0; i < LIST_LENGTH; i++)
+		l->hash[i] = false;
+	
+	// standard streams are always open
+	tName in  = "standard input";
+	file_add(l, file_createNode(0, fcntl(0, F_GETFL), in));
+	tName out = "standard output";
+	file_add(l, file_createNode(1, fcntl(1, F_GETFL), out));
+	tName err = "standard error";
+	file_add(l, file_createNode(2, fcntl(2, F_GETFL), err));
 }
 void  file_clear        (tFileList* l) {
-    l->last = LNULL;
+    file_createEmpty(l);
 }
 void  file_add          (tFileList* l, tFile f) {
-    if (l->last == LNULL ) {
-        l->last = 0;
-        l->contents[0] = f;
-        return;
-    }
-    if (l->last + 1 >= LIST_LENGTH) {
-        fprintf(stderr, "maximum number of open files reached\n");
-        return;
-    }
-
-    for (int i = 0; i <= l->last; i++) {
-        if (l->contents[i].descriptor < f.descriptor) {
-            for (int j = l->last; j >= i; j--) {
-                l->contents[j + 1] = l->contents[j];
-            }
-            l->contents[i] = f;
-            l->last++;
-            return;
-        }
-    }
-
-    l->last++;
-    l->contents[l->last] = f;
+    int i = f.descriptor;
+	if (i > LIST_LENGTH)
+		fprintf(stderr, "invalid descriptor %d\n", i);
+	l->hash[i] = true;
+	l->contents[i] = f;
 }
-void  file_remove       (tFileList* l, int index) {
-    if (l->last == LNULL || index < 0 || index > l->last) return;
-    for (int i = index; i < l->last; i++) {
-        l->contents[i] = l->contents[i + 1];
-    }
-    l->last--;
+void  file_remove       (tFileList* l, int i) {
+    l->hash[i] = false;
 }
 
 int   file_first (tFileList l) {
-    if (l.last == LNULL) return LNULL;
-    return 0;
+    for(int i = 0; i < LIST_LENGTH; i++)
+		if (l.hash[i]) return i;
+	return LNULL;
 }
 int   file_last  (tFileList l) {
-    return l.last;
+    for(int i = LIST_LENGTH - 1; i >= 0; i--)
+		if (l.hash[i]) return i;
+	return LNULL;
 }
 int   file_next  (tFileList l, int i) {
-    if (i + 1 <= l.last) return i + 1;
-    else return LNULL;
+	for(int j = i + 1; j < LIST_LENGTH; j++)
+		if (l.hash[j]) return j;
+	return LNULL;
 }
 int   file_prev  (tFileList l, int i) {
-    (void)l;
-    if (i > 0) return i - 1;
-    else return LNULL;
+    for(int j = i - 1; j >= 0; j--)
+		if (l.hash[i]) return j;
+	return LNULL;
 }
 int   file_count (tFileList l) {
-    return l.last + 1;
+	int acc = 0;
+    for (int i = 0; i < LIST_LENGTH; i++)
+		acc += (int)l.hash[i];
+	return acc;
 }
 
 int   file_find_descriptor (tFileList l, int df) {
-    if (l.last == LNULL) return LNULL;
-    for (int i = 0; i <= l.last; i++) {
-        if (l.contents[i].descriptor == df) return i;
-        //if (l.contents[i].descriptor > df)  return LNULL;
-    }
-    return LNULL;
+    return (l.hash[df]) ? df : LNULL;
 }
 int   file_find_name       (tFileList l, tName name) {
-    if (l.last == LNULL) return LNULL;
-    for (int i = 0; i <= l.last; i++)
-        if (!strcmp(l.contents[i].name, name)) return i;
+    for (int i = 0; i <= LIST_LENGTH; i++)
+        if (l.hash[i] && !strcmp(l.contents[i].name, name)) return i;
     return LNULL;
 }
 
