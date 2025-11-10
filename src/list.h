@@ -9,7 +9,7 @@
 
 typedef struct tListA tFileList;
 struct tListA {
-    int last;
+    bool  hash[LIST_LENGTH];
     tFile contents[LIST_LENGTH];
 };
 
