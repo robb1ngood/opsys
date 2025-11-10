@@ -8,12 +8,12 @@ void  file_createEmpty  (tFileList* l) {
 		l->hash[i] = false;
 	
 	// standard streams are always open
-	tName in  = "stdin";
-	tName out = "stdout";
-	tName err = "stderr";
-	file_add(l, file_createNode(0, O_RDWR | O_APPEND, in));
-	file_add(l, file_createNode(1, O_RDWR | O_APPEND, out));
-	file_add(l, file_createNode(2, O_RDWR | O_APPEND, err));
+	tName in  = "standard input";
+	file_add(l, file_createNode(0, fcntl(0, F_GETFL), in));
+	tName out = "standard output";
+	file_add(l, file_createNode(1, fcntl(1, F_GETFL), out));
+	tName err = "standard error";
+	file_add(l, file_createNode(2, fcntl(2, F_GETFL), err));
 }
 void  file_clear        (tFileList* l) {
     file_createEmpty(l);
