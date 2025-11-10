@@ -36,7 +36,7 @@ void Cmd_writestr    (int, char *tr[], tFileList*);
 void Cmd_malloc      (int, char *tr[], tMemoryList*);
 void Cmd_mmap        (int, char *tr[], tFileList*, tMemoryList*);
 void Cmd_shared      (int, char *tr[], tMemoryList*);
-void Cmd_free        (int, char *tr[], tMemoryList*);
+void Cmd_free        (int, char *tr[], tFileList*, tMemoryList*);
 void Cmd_memfill     (int, char *tr[]);
 void Cmd_memdump     (int, char *tr[]);
 void Cmd_mem         (int, char *tr[], tMemoryList*);

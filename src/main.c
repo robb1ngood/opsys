@@ -104,7 +104,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("malloc",    Cmd_malloc   )(n, tr, ml);
 	command("mmap",      Cmd_mmap     )(n, tr, fl, ml);
 	command("shared",    Cmd_shared   )(n, tr, ml);
-	command("free",      Cmd_free     )(n, tr, ml);
+	command("free",      Cmd_free     )(n, tr, fl, ml);
 	command("memfill",   Cmd_memfill  )(n, tr);
 	command("memdump",   Cmd_memdump  )(n, tr);
 	command("mem",       Cmd_mem      )(n, tr, ml);
