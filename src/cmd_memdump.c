@@ -18,6 +18,8 @@ void Cmd_memdump(int n, char *tr[]) {
 		fprintf(stderr, "invalid size %s", tr[2]);
 		return;
 	}
+
+	// Print hex values
 	for (size_t i = 0; i < cont; i++) {
 		printf("%02X ", arr[i]);
 	}
@@ -30,9 +32,9 @@ void Cmd_memdump(int n, char *tr[]) {
 			case '\t': fputs("\\t ", stdout); break;
 			case '\r': fputs("\\r ", stdout); break;
 			default: if (isprint(c))
-				printf("%c  ", c);
+				printf("%c  ", c); // printable character
 				   else
-				printf("   ");
+				printf("   ");//no printable character blank space
 				break;
 		}
 	}
