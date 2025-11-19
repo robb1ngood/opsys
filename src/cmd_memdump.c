@@ -1,5 +1,5 @@
 #include "commands.h"
-
+#include <ctype.h>
 void Cmd_memdump(int n, char *tr[]) {
 	if (n != 3) {
 		fprintf(stderr, "usage: memdump <addr> <cont>\n");
@@ -18,14 +18,22 @@ void Cmd_memdump(int n, char *tr[]) {
 		fprintf(stderr, "invalid size %s", tr[2]);
 		return;
 	}
-	
+	for (size_t i = 0; i < cont; i++) {
+		printf("%02X ", arr[i]);
+	}
+	printf("\n");
+
 	for (size_t i = 0; i < cont; i++) {
 		unsigned char c = arr[i];
 		switch(c) {
-			case '\n': fputs("\\n", stdout); break;
-			case '\t': fputs("\\t", stdout); break;
-			case '\r': fputs("\\r", stdout); break;
-			default: fputc(c, stdout); break;
+			case '\n': fputs("\\n ", stdout); break;
+			case '\t': fputs("\\t ", stdout); break;
+			case '\r': fputs("\\r ", stdout); break;
+			default: if (isprint(c))
+				printf("%c  ", c);
+				   else
+				printf("   ");
+				break;
 		}
 	}
 	fputc('\n', stdout);

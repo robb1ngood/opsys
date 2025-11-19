@@ -47,6 +47,8 @@ void aux_alloc(size_t n, tMemoryList *ml) {
 		perror("malloc");
 		return;
 	}	
+	printf("malloc: assigned %zu bytes at %p\n", n, p);
+
 	tMem node = mem_createNode(p, n, time(NULL), T_MALLOC, NULL);
 	mem_add(ml, node);
 }
