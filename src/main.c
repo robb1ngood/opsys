@@ -8,14 +8,19 @@
 #include <unistd.h>
 #include <sys/utsname.h>
 
+// necesary for deleting the memory once done
+#include <sys/mman.h>
+#include <sys/shm.h>
+
 #include "commands.h"
 #include "list.h"
 #include "misc.h"
 #include "types.h"
 #include "main.h"
 
-void printPrompt();
-void readCommand(tCmd);
+void  printPrompt();
+char* readCommand(tCmd);
+void  quitOut(tMemoryList*);
 
 int main(void) {
 	tFileList fileList;
@@ -37,7 +42,9 @@ int main(void) {
 	for (;;) {
 		tCmd command;
 		printPrompt();
-		readCommand(command);
+		if (readCommand(command) == NULL) {
+			quitOut(&memList);
+		}
 		cmd_add(&commandList, command);
 		executeCommand(command, &fileList, &commandList, &memList, &params);
 	}
@@ -62,9 +69,19 @@ void printPrompt() {
 	
 	printf("%s@%s{%s} %%) ", sysinfo.sysname, sysinfo.nodename, cwd_trozos[i - 1]);
 }
-
-void readCommand(tCmd command) {
-	if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL) exit(0);
+char* readCommand(tCmd command) {
+	return fgets(command, MAX_COMMAND_LENGTH, stdin);
+}
+void quitOut(tMemoryList *ml) {
+	for(int i = mem_first(*ml); i != LNULL; i = mem_next(*ml, i)) {
+		tMem mem = mem_get(*ml, i);
+		switch (mem.type) {
+			case T_MALLOC: free(mem.adress);			 break;
+			case T_MAPPED: munmap(mem.adress, mem.size); break;
+			case T_SHARED: shmdt(mem.adress);			 break;
+		}
+	}
+	exit(0);
 }
 
 #define command(name, function) else if (!strcmp(tr[0], name))  function
@@ -88,9 +105,9 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("listopen", Cmd_listopen)(n, tr, fl);
 	command("infosys",  Cmd_infosys )(n, tr);
 	command("help",     Cmd_help    )(n, tr);
-	command("quit",     exit	    )(0);
-	command("exit",     exit	    )(0);
-	command("bye",      exit	    )(0);
+	command("quit",     quitOut		)(ml);
+	command("exit",     quitOut		)(ml);
+	command("bye",      quitOut		)(ml);
 
 	command("create",       Cmd_create      )(n, tr);
 	command("setdirparams", Cmd_setdirparams)(n, tr, params);
