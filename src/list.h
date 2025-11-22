@@ -68,4 +68,27 @@ tMem mem_get		(tMemoryList, int);
 tMem mem_createNode(void *adress, size_t size, time_t time, tMemType type, void *extra);
 void print_mem(tMem mem);
 
+
+
+typedef struct tListD tProcessList;
+struct tListD {
+		int last;
+		tProcess contents[LIST_LENGTH];
+};
+
+void process_createEmpty(tProcessList*);
+void process_clear		(tProcessList*);
+void process_add		(tProcessList*, tProcess);
+void process_remove		(tProcessList*, int);
+int  process_first		(tProcessList);
+int  process_last		(tProcessList);
+int  process_next		(tProcessList, int);		// i must be a valid position. Returns LNULL if it ends oob
+int  process_prev		(tProcessList, int);		// i must be a valid position. Returns LNULL if it ends oob
+int  process_count		(tProcessList);
+tProcess process_get	(tProcessList, int);
+
+tProcess process_createNode(pid_t pid, time_t time, tProcessStatus status, tCmd command, int priority);
+void print_process(tProcess);
+
+
 #endif

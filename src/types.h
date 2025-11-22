@@ -45,4 +45,15 @@ typedef struct {
 	tMemExtra  extra;
 } tMem;
 
+
+
+typedef enum { T_FINISHED, T_STOPPED, T_SIGNALED, T_ACTIVE } tProcessStatus
+typedef struct {
+	pid_t  pid;
+	time_t time;
+	tProcessStatus status;
+	tCmd command;
+	int priority;
+} tProcess;
+
 #endif
