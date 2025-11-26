@@ -1,4 +1,6 @@
 #include "list.h"
+#include <stdio.h>
+#include <string.h>
 
 void process_createEmpty(tProcessList* l) {
     l->last = LNULL;
@@ -19,7 +21,7 @@ void process_add		(tProcessList* l, tProcess p) {
     l->last++;
     l->contents[l->last] = p;
 }
-void process_remove		(tProcessList* l, int i) {
+void process_remove		(tProcessList* l, int index) {
     if (l->last == LNULL || index < 0 || index > l->last) return;
     for (int i = index; i < l->last; i++) {
         l->contents[i] = l->contents[i + 1];
@@ -51,12 +53,12 @@ tProcess process_get	(tProcessList l, int i) {
 	return l.contents[i];
 }
 
-tProcess process_createNode(pid_t pid, time_t time, tProcessStatus status, tCmd command, int priority) {
+tProcess process_createNode(pid_t pid, tCmd command, int priority) {
 	tProcess new;
 	
 	new.pid = pid;
-	new.time = time;
-	new.status = status;
+	new.time = time(NULL);
+	new.status = T_ACTIVE;
 	strcpy(new.command, command);
 	new.priority = priority;
 	

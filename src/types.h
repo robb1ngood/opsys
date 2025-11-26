@@ -47,7 +47,7 @@ typedef struct {
 
 
 
-typedef enum { T_FINISHED, T_STOPPED, T_SIGNALED, T_ACTIVE } tProcessStatus
+typedef enum { T_FINISHED, T_STOPPED, T_SIGNALED, T_ACTIVE } tProcessStatus;
 typedef struct {
 	pid_t  pid;
 	time_t time;
