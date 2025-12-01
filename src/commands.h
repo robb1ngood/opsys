@@ -10,40 +10,53 @@
 
 #include "list.h"
 
-void Cmd_authors     (int, char *tr[]);
-void Cmd_getpid      (int, char *tr[]);
-void Cmd_chdir       (int, char *tr[]);
-void Cmd_getcwd      (int, char *tr[]);
-void Cmd_date        (int, char *tr[]);
-void Cmd_hour        (int, char *tr[]);
-void Cmd_historic    (int, char *tr[], tFileList*, tCommandList*, tMemoryList*, dirParams*);
-void Cmd_open        (int, char *tr[], tFileList*);
-void Cmd_close       (int, char *tr[], tFileList*);
-void Cmd_dup         (int, char *tr[], tFileList*);
-void Cmd_listopen    (int, char *tr[], tFileList*);
-void Cmd_infosys     (int, char *tr[]);
-void Cmd_help        (int, char *tr[]);
+#define defCmd(name, ...) void name (int, char *[], __VA_ARGS__)
 
-void Cmd_create      (int, char *tr[]);
-void Cmd_setdirparams(int, char *tr[], dirParams*);
-void Cmd_getdirparams(int, char *tr[], dirParams*);
-void Cmd_dir         (int, char *tr[], dirParams*);
-void Cmd_erase       (int, char *tr[], tFileList*);
-void Cmd_delrec      (int, char *tr[], tFileList*);
-void Cmd_lseek       (int, char *tr[]);
-void Cmd_writestr    (int, char *tr[], tFileList*);
+defCmd (Cmd_authors);
+defCmd (Cmd_getpid);
+defCmd (Cmd_chdir);
+defCmd (Cmd_getcwd);
+defCmd (Cmd_date);
+defCmd (Cmd_hour);
+defCmd (Cmd_historic, 	tFileList*, tCommandList*, tMemoryList*, dirParams*, char **envp);
+defCmd (Cmd_open,     	tFileList*);
+defCmd (Cmd_close,    	tFileList*);
+defCmd (Cmd_dup,      	tFileList*);
+defCmd (Cmd_listopen, 	tFileList*);
+defCmd (Cmd_infosys);
+defCmd (Cmd_help);
 
-void Cmd_malloc      (int, char *tr[], tMemoryList*);
-void Cmd_mmap        (int, char *tr[], tFileList*, tMemoryList*);
-void Cmd_shared      (int, char *tr[], tMemoryList*);
-void Cmd_free        (int, char *tr[], tFileList*, tMemoryList*);
-void Cmd_memfill     (int, char *tr[]);
-void Cmd_memdump     (int, char *tr[]);
-void Cmd_mem         (int, char *tr[], tMemoryList*);
-void Cmd_readfile    (int, char *tr[]);
-void Cmd_writefile   (int, char *tr[]);
-void Cmd_read        (int, char *tr[], tFileList*);
-void Cmd_write       (int, char *tr[], tFileList*);
-void Cmd_recurse     (int, char *tr[]);
+defCmd (Cmd_create);
+defCmd (Cmd_setdirparams, 	dirParams*);
+defCmd (Cmd_getdirparams, 	dirParams*);
+defCmd (Cmd_dir, 			dirParams*);
+defCmd (Cmd_erase, 			tFileList*);
+defCmd (Cmd_delrec, 		tFileList*);
+defCmd (Cmd_lseek);
+defCmd (Cmd_writestr, 		tFileList*);
+
+defCmd (Cmd_malloc,      tMemoryList*);
+defCmd (Cmd_mmap,        tFileList*, tMemoryList*);
+defCmd (Cmd_shared,      tMemoryList*);
+defCmd (Cmd_free,        tFileList*, tMemoryList*);
+defCmd (Cmd_memfill);
+defCmd (Cmd_memdump);
+defCmd (Cmd_mem,         tMemoryList*);
+defCmd (Cmd_readfile);
+defCmd (Cmd_writefile);
+defCmd (Cmd_read,        tFileList*);
+defCmd (Cmd_write,       tFileList*);
+defCmd (Cmd_recurse);
+
+defCmd (Cmd_uid);
+defCmd (Cmd_envvar, 	char **envp);
+defCmd (Cmd_showenv, 	char **envp);
+defCmd (Cmd_fork);
+defCmd (Cmd_exec);
+defCmd (Cmd_jobs, 		tProcessList);
+defCmd (Cmd_deljobs, 	tProcessList);
+defCmd (Cmd_progspec, 	tProcessList);
+
+#undef defCmd
 
 #endif

@@ -22,22 +22,13 @@ void  printPrompt();
 char* readCommand(tCmd);
 void  quitOut(tMemoryList*);
 
-int main(void) {
-	tFileList fileList;
-	file_createEmpty(&fileList);
-
-	tCommandList commandList;
-	cmd_createEmpty(&commandList);
+int main(int argc, char *argv[], char **envp) {
 	
-	tMemoryList memList;
-	mem_createEmpty(&memList);
-
-	dirParams params = {
-		false,
-		false,
-		false,
-		NOREC
-	};
+	tFileList 	 fileList; 	  file_createEmpty(&fileList);
+	tCommandList commandList; cmd_createEmpty (&commandList);
+	tMemoryList  memList; 	  mem_createEmpty (&memList);
+	tProcessList processList; process_createEmpty(&processList);
+	dirParams params = { false, false, false, NOREC };
 
 	for (;;) {
 		tCmd command;
@@ -46,7 +37,7 @@ int main(void) {
 			quitOut(&memList);
 		}
 		cmd_add(&commandList, command);
-		executeCommand(command, &fileList, &commandList, &memList, &params);
+		executeCommand(command, &fileList, &commandList, &memList, &params, envp);
 	}
 }
 
@@ -86,7 +77,7 @@ void quitOut(tMemoryList *ml) {
 
 #define command(name, function) else if (!strcmp(tr[0], name))  function
 
-void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *ml, dirParams *params) {
+void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *ml, dirParams *params, char **envp) {
 	char *tr[MAX_COMMAND_LENGTH];
 	int n = trocearCadena(current, tr, " \n\t");
 	
@@ -98,7 +89,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("getcwd",   Cmd_getcwd  )(n, tr);
 	command("date",     Cmd_date    )(n, tr);
 	command("hour",     Cmd_hour    )(n, tr);
-	command("historic", Cmd_historic)(n, tr, fl, cl, ml, params);
+	command("historic", Cmd_historic)(n, tr, fl, cl, ml, params, envp);
 	command("open",     Cmd_open    )(n, tr, fl);
 	command("close",    Cmd_close   )(n, tr, fl);
 	command("dup",      Cmd_dup     )(n, tr, fl);
