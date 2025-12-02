@@ -87,7 +87,7 @@ int  process_prev		(tProcessList, int);		// i must be a valid position. Returns 
 int  process_count		(tProcessList);
 tProcess process_get	(tProcessList, int);
 
-tProcess process_createNode(pid_t, tCmd, int);
+tProcess process_createNode(pid_t, tCmd);
 void print_process(tProcess);
 
 
