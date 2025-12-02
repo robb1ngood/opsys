@@ -53,7 +53,6 @@ typedef struct {
 	time_t time;
 	tProcessStatus status;
 	tCmd command;
-	int priority;
 } tProcess;
 
 #endif
