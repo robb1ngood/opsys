@@ -37,7 +37,7 @@ int main(int argc, char *argv[], char **envp) {
 			quitOut(&memList);
 		}
 		cmd_add(&commandList, command);
-		executeCommand(command, &fileList, &commandList, &memList, &params, envp);
+		executeCommand(command, &fileList, &commandList, &memList, &processList, &params, envp);
 	}
 }
 
@@ -75,52 +75,52 @@ void quitOut(tMemoryList *ml) {
 	exit(0);
 }
 
-#define command(name, function) else if (!strcmp(tr[0], name))  function
+#define command(name, function, ...) else if (!strcmp(tr[0], name))  function(__VA_ARGS__)
 
-void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *ml, dirParams *params, char **envp) {
+void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *ml, tProcessList *pl, dirParams *params, char **envp) {
 	char *tr[MAX_COMMAND_LENGTH];
 	int n = trocearCadena(current, tr, " \n\t");
 	
 	if (tr[0]==NULL)
 		return;
-	command("authors",  Cmd_authors )(n, tr);
-	command("getpid",   Cmd_getpid  )(n, tr);
-	command("chdir",    Cmd_chdir   )(n, tr);
-	command("getcwd",   Cmd_getcwd  )(n, tr);
-	command("date",     Cmd_date    )(n, tr);
-	command("hour",     Cmd_hour    )(n, tr);
-	command("historic", Cmd_historic)(n, tr, fl, cl, ml, params, envp);
-	command("open",     Cmd_open    )(n, tr, fl);
-	command("close",    Cmd_close   )(n, tr, fl);
-	command("dup",      Cmd_dup     )(n, tr, fl);
-	command("listopen", Cmd_listopen)(n, tr, fl);
-	command("infosys",  Cmd_infosys )(n, tr);
-	command("help",     Cmd_help    )(n, tr);
-	command("quit",     quitOut		)(ml);
-	command("exit",     quitOut		)(ml);
-	command("bye",      quitOut		)(ml);
+	command("authors",  Cmd_authors,  n, tr);
+	command("getpid",   Cmd_getpid,	  n, tr);
+	command("chdir",    Cmd_chdir,	  n, tr);
+	command("getcwd",   Cmd_getcwd,	  n, tr);
+	command("date",     Cmd_date,	  n, tr);
+	command("hour",     Cmd_hour,	  n, tr);
+	command("historic", Cmd_historic, n, tr, fl, cl, ml, pl, params, envp);
+	command("open",     Cmd_open,	  n, tr, fl);
+	command("close",    Cmd_close,	  n, tr, fl);
+	command("dup",      Cmd_dup,	  n, tr, fl);
+	command("listopen", Cmd_listopen, n, tr, fl);
+	command("infosys",  Cmd_infosys,  n, tr);
+	command("help",     Cmd_help,	  n, tr);
+	command("quit",     quitOut,	  ml);
+	command("exit",     quitOut,	  ml);
+	command("bye",      quitOut,	  ml);
 
-	command("create",       Cmd_create      )(n, tr);
-	command("setdirparams", Cmd_setdirparams)(n, tr, params);
-	command("getdirparams", Cmd_getdirparams)(n, tr, params);
-	command("dir",          Cmd_dir         )(n, tr, params);
-	command("erase",        Cmd_erase       )(n, tr, fl);
-	command("delrec",       Cmd_delrec      )(n, tr, fl);
-	command("lseek",        Cmd_lseek       )(n, tr);
-	command("writestr",     Cmd_writestr    )(n, tr, fl);
+	command("create",       Cmd_create,		  n, tr);
+	command("setdirparams", Cmd_setdirparams, n, tr, params);
+	command("getdirparams", Cmd_getdirparams, n, tr, params);
+	command("dir",          Cmd_dir,		  n, tr, params);
+	command("erase",        Cmd_erase,		  n, tr, fl);
+	command("delrec",       Cmd_delrec,		  n, tr, fl);
+	command("lseek",        Cmd_lseek,		  n, tr);
+	command("writestr",     Cmd_writestr,	  n, tr, fl);
 	
-	command("malloc",    Cmd_malloc   )(n, tr, ml);
-	command("mmap",      Cmd_mmap     )(n, tr, fl, ml);
-	command("shared",    Cmd_shared   )(n, tr, ml);
-	command("free",      Cmd_free     )(n, tr, fl, ml);
-	command("memfill",   Cmd_memfill  )(n, tr);
-	command("memdump",   Cmd_memdump  )(n, tr);
-	command("mem",       Cmd_mem      )(n, tr, ml);
-	command("readfile",  Cmd_readfile )(n, tr);
-	command("writefile", Cmd_writefile)(n, tr);
-	command("read",      Cmd_read     )(n, tr, fl);
-	command("write",     Cmd_write    )(n, tr, fl);
-	command("recurse",   Cmd_recurse  )(n, tr);
+	command("malloc",    Cmd_malloc,	n, tr, ml);
+	command("mmap",      Cmd_mmap,		n, tr, fl, ml);
+	command("shared",    Cmd_shared,	n, tr, ml);
+	command("free",      Cmd_free,		n, tr, fl, ml);
+	command("memfill",   Cmd_memfill,	n, tr);
+	command("memdump",   Cmd_memdump,	n, tr);
+	command("mem",       Cmd_mem,		n, tr, ml);
+	command("readfile",  Cmd_readfile,	n, tr);
+	command("writefile", Cmd_writefile,	n, tr);
+	command("read",      Cmd_read,		n, tr, fl);
+	command("write",     Cmd_write,		n, tr, fl);
+	command("recurse",   Cmd_recurse,	n, tr);
 }
 
 #undef command

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 
-void Cmd_historic(int n, char *tr[], tFileList *fl, tCommandList *cl, tMemoryList *ml, dirParams *params, char **envp)
+void Cmd_historic(int n, char *tr[], tFileList *fl, tCommandList *cl, tMemoryList *ml, tProcessList *pl, dirParams *params, char **envp)
 {
     if (tr[1] == NULL) {
         for (int i = cmd_first(*cl); i != LNULL && i < cmd_last(*cl); i = cmd_next(*cl, i))
@@ -35,7 +35,7 @@ void Cmd_historic(int n, char *tr[], tFileList *fl, tCommandList *cl, tMemoryLis
                 fprintf(stderr, "historic: cannot re-execute 'historic' command to avoid infinite loop\n");
                 return;
             }
-            executeCommand(cmd, fl, cl, ml, params, envp);
+            executeCommand(cmd, fl, cl, ml, pl, params, envp);
         }
         else
             perror("command does not exist");
