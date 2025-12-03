@@ -53,13 +53,12 @@ tProcess process_get	(tProcessList l, int i) {
 	return l.contents[i];
 }
 
-tProcess process_createNode(pid_t pid, tCmd command) {
+tProcess process_createNode(pid_t pid, char **command) {
 	tProcess new;
 	
 	new.pid = pid;
 	new.time = time(NULL);
 	new.status = T_ACTIVE;
-	strcpy(new.command, command);
 	
 	return new;
 }
