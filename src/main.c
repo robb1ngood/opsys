@@ -123,6 +123,8 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("recurse",   Cmd_recurse,	n, tr);
 	
 	command("envvar", Cmd_envvar, n, tr, envp);
+	
+	else Cmd_progspec(n, tr, pl);
 }
 
 #undef command
