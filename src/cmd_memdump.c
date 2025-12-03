@@ -14,29 +14,27 @@ void Cmd_memdump(int n, char *tr[]) {
 	}
 	
 	size_t cont = (size_t)strtol(tr[2], &endptr, 10);
-	if (*endptr != '\0') {
+	if (*endptr != '\0' || cont < 0) {
 		fprintf(stderr, "invalid size %s", tr[2]);
 		return;
 	}
 
-	// Print hex values
-	for (size_t i = 0; i < cont; i++) {
-		printf("%02X ", arr[i]);
-	}
-	printf("\n");
-
-	for (size_t i = 0; i < cont; i++) {
-		unsigned char c = arr[i];
-		switch(c) {
-			case '\n': fputs("\\n ", stdout); break;
-			case '\t': fputs("\\t ", stdout); break;
-			case '\r': fputs("\\r ", stdout); break;
-			default: if (isprint(c))
-				printf("%c  ", c); // printable character
-				   else
-				printf("   ");//no printable character blank space
-				break;
+	for (size_t i = 0; i < cont; i += 20) {
+		printf("%p->  ", arr + i);
+		for(size_t j = i; j < (i + 20) && j < cont; j++) {
+			unsigned char c = arr[j];
+			switch(c) {
+				case '\n': printf("\\n "); break;
+				case '\t': printf("\\t "); break;
+				case '\r': printf("\\r "); break;
+				default: printf("%2c ", c);
+			}
 		}
+		printf("\n%p->  ", arr + i);
+		for (size_t j = i; j < (i + 20) && j < cont; j++) {
+			unsigned char c = arr[j];
+			printf("%02x ", c);
+		}
+		fputc('\n', stdout);
 	}
-	fputc('\n', stdout);
 }
