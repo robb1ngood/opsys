@@ -51,9 +51,9 @@ void Cmd_envvar		(int, char *tr[], char **envp);
 void Cmd_showenv	(int, char *tr[], char **envp);
 void Cmd_fork		(int, char *tr[]);
 void Cmd_exec		(int, char *tr[]);
-void Cmd_jobs		(int, char *tr[], tProcessList);
-void Cmd_deljobs 	(int, char *tr[], tProcessList);
-void Cmd_progspec 	(int, char *tr[], tProcessList);
+void Cmd_jobs		(int, char *tr[], tProcessList*);
+void Cmd_deljobs 	(int, char *tr[], tProcessList*);
+void Cmd_progspec 	(int, char *tr[], tProcessList*);
 
 #undef defCmd
 

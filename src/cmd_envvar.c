@@ -14,19 +14,20 @@ void Cmd_envvar(int n, char *tr[], char **envp) {
 		if (pos == -1)
 			perror("envvar");
 		else
-			printf("envp:    %p -> %s", envp + pos, envp[pos]);
+			printf("envp:    %p -> %s\n", envp + pos, envp[pos]);
 		
 		pos = BuscarVariable(tr[2], environ);
 		if (pos == -1)
 			perror("envvar");
 		else
-			printf("environ: %p -> %s", environ + pos, environ[pos]);
+			printf("environ: %p -> %s\n", environ + pos, environ[pos]);
 		
 		char *g = getenv(tr[2]);
 		if (g == NULL)
 			perror("envvar");
 		else
-			printf("getenv:  %p -> %s", g, g);
+			printf("getenv:  %p -> %s\n", g, g);
+		return;
 	}
 	
 	if (n == 5 && !strcmp(tr[1], "-change")) {
@@ -49,11 +50,13 @@ void Cmd_envvar(int n, char *tr[], char **envp) {
 			free(aux);
 		}
 		
-		fprintf(stderr, "usage : envvar -change [-a|-e|-p] <var> <value>\n");
+		else fprintf(stderr, "usage : envvar -change [-a|-e|-p] <var> <value>\n");
 		return;
 	}
-		
-	fprintf(stderr, "usage : envvar -show <var>\nusage : envvar -change [-a|-e|-p] <var> <value>\n");
+	
+	for (int i = 0; envp[i] != NULL; i++) {
+		printf("%p->main arg3[%d] %s\n", envp + i, i, envp[i]);
+	}
 }
 
 int BuscarVariable (char * var, char *e[]) {/*busca una variable en el entorno que se le pasa como parÃ¡metro*/

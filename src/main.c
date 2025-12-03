@@ -121,6 +121,8 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("read",      Cmd_read,		n, tr, fl);
 	command("write",     Cmd_write,		n, tr, fl);
 	command("recurse",   Cmd_recurse,	n, tr);
+	
+	command("envvar", Cmd_envvar, n, tr, envp);
 }
 
 #undef command
