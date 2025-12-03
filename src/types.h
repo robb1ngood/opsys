@@ -8,8 +8,9 @@
 #include <limits.h>
 
 #define MAX_COMMAND_LENGTH 128
+#define NAME_LENGTH_LIMIT  128
 
-typedef char tName[PATH_MAX];
+typedef char tName[NAME_LENGTH_LIMIT];
 typedef struct {
     int descriptor;
     int mode;
