@@ -18,7 +18,7 @@ void Cmd_memdump(int n, char *tr[]) {
 		fprintf(stderr, "invalid size %s", tr[2]);
 		return;
 	}
-
+	
 	for (size_t i = 0; i < cont; i += 20) {
 		printf("%p->  ", arr + i);
 		for(size_t j = i; j < (i + 20) && j < cont; j++) {

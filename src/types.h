@@ -5,11 +5,11 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <time.h>
+#include <limits.h>
 
 #define MAX_COMMAND_LENGTH 128
-#define NAME_LENGTH_LIMIT 20
 
-typedef char tName[NAME_LENGTH_LIMIT];
+typedef char tName[PATH_MAX];
 typedef struct {
     int descriptor;
     int mode;
