@@ -1,10 +1,11 @@
 #include "commands.h"
 #include <unistd.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 
-void Cmd_progspec(int n, char *tr[], tProcessList pl) {
+void Cmd_progspec(int n, char *tr[], tProcessList *pl) {
 	char **aux = calloc(n + 1, sizeof(char *));
-	int priority = int getpriority(PRIO_PROCESS, 0);
+	int priority = getpriority(PRIO_PROCESS, 0);
 	bool is_bg = false;
 	int i = 0;
 	for (; i < n; i++) {
@@ -30,7 +31,8 @@ void Cmd_progspec(int n, char *tr[], tProcessList pl) {
 	//duplicate the calling process. This will become the child process later
 	pid_t pid;
 	if ((pid = fork()) == 0) {
-		execvp(tr[0], aux)
+		setpriority(PRIO_PROCESS, 0, priority);
+		execvp(tr[0], aux);
 		perror("fallo en execvp");
 		exit(0);		
 	}

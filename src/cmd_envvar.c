@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <stdlib.h>
 extern char **environ;
+#define MAXVAR 128
 
 int BuscarVariable (char * var, char *e[]);
 int CambiarVariable(char * var, char * valor, char *e[]);
