@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
+#include <unistd.h>
 void process_createEmpty(tProcessList* l) {
     l->last = LNULL;
 }
@@ -72,6 +74,34 @@ tProcess process_createNode(pid_t pid, char **command) {
 	}
 	return new;
 }
+
+void update_process_state(tProcess* pl) {
+    int status;
+    pid_t r = waitpid(pl->pid, &status, WNOHANG | WUNTRACED | WCONTINUED);
+    if (r == 0) { return; }
+    if (r == -1) {
+        pl->status = T_FINISHED;
+        return;
+    }
+    if (WIFEXITED(status)) {
+        pl->status = T_FINISHED;
+        pl->exitcode = WEXITSTATUS(status);
+    }
+    else if (WIFSIGNALED(status)) {
+        pl->status = T_SIGNALED;
+        pl->signal = WTERMSIG(status);
+    }
+
+    else if (WIFSTOPPED(status)) {
+        pl->status = T_STOPPED;
+        pl->signal = WSTOPSIG(status);
+    }
+    else if (WIFCONTINUED(status)) {
+        pl->status = T_ACTIVE;
+    }
+
+}
+
 void print_process(tProcess p) {
     char timebuff[80];
     struct tm* tm = localtime(&p.time);
