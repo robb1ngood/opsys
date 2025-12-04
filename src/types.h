@@ -55,6 +55,8 @@ typedef struct {
 	tProcessStatus status;
 	tCmd command;
 	int priority;
+	int exitcode;
+	int signal;
 } tProcess;
 
 #endif

@@ -1,7 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 #include <string.h>
-
+#include <sys/resource.h>
 void process_createEmpty(tProcessList* l) {
     l->last = LNULL;
 }
@@ -28,6 +28,11 @@ void process_remove		(tProcessList* l, int index) {
     }
     l->last--;
 }
+void process_set(tProcessList* l, int i, tProcess p) {
+    if (i < 0 || i > l->last) return;
+    l->contents[i] = p;
+}
+
 
 int  process_first		(tProcessList l) {
     if (l.last == LNULL) return LNULL;
@@ -53,19 +58,32 @@ tProcess process_get	(tProcessList l, int i) {
 	return l.contents[i];
 }
 
+
 tProcess process_createNode(pid_t pid, char **command) {
 	tProcess new;
-	
+
 	new.pid = pid;
 	new.time = time(NULL);
 	new.status = T_ACTIVE;
 	strcpy(new.command, command[0]);
-	for (int i = 1; command[i] != NULL) {
+    for (int i = 1; command[i] != NULL;i++) {
 		strcat(new.command, " ");
 		strcat(new.command, command[i]);
 	}
 	return new;
 }
-void print_process(tProcess) {
-	
+void print_process(tProcess p) {
+    char timebuff[80];
+    struct tm* tm = localtime(&p.time);
+    strftime(timebuff, sizeof(timebuff), "%b %e %H:%M", tm);
+    int priority = getpriority(PRIO_PROCESS, p.pid);
+    printf("PID: %d | started: %s | priority: %d\n", p.pid, timebuff, priority);
+    switch (p.status) {
+    case T_ACTIVE:printf("ACTIVE\n"); break;
+    case T_FINISHED:printf("FINISHED (exit code %d)\n", p.exitcode); break;
+    case T_SIGNALED:printf("SIGNALED (signal %d)\n", p.signal); break;
+    case T_STOPPED:printf("STOPPED (signal %d)\n", p.signal);  break;
+    default:printf("UNKNOWN\n"); break;
+    }
+    printf("   Command: %s\n", p.command);
 }
