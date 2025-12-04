@@ -59,7 +59,11 @@ tProcess process_createNode(pid_t pid, char **command) {
 	new.pid = pid;
 	new.time = time(NULL);
 	new.status = T_ACTIVE;
-	
+	strcpy(new.command, command[0]);
+	for (int i = 1; command[i] != NULL) {
+		strcat(new.command, " ");
+		strcat(new.command, command[i]);
+	}
 	return new;
 }
 void print_process(tProcess) {

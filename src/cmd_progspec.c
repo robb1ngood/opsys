@@ -31,14 +31,14 @@ void Cmd_progspec(int n, char *tr[], tProcessList *pl) {
 	
 	//duplicate the calling process. This will become the child process later
 	pid_t pid;
-	if ((pid = fork()) == 0) {
-		char path[PATH_MAX];
-		getcwd(path, sizeof(path));
-		strcat(path, "/");
-		strcat(path, tr[0]);
+	char path[PATH_MAX];
+	getcwd(path, sizeof(path));
+	strcat(path, "/");
+	strcat(path, tr[0]);
+	if ((pid = vfork()) == 0) {
 		setpriority(PRIO_PROCESS, 0, priority);
-		execvp(path, aux);
-		perror(path);
+		execvp(path, aux);	//no need to free memory, execvp already does so
+		perror(path);		//if the execution failed we delete the child process
 		exit(0);		
 	}
 	else {
