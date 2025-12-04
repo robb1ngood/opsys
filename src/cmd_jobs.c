@@ -5,6 +5,7 @@
 
 void update_process_state(tProcess* pl) {
 	int status;
+	// WNOHANG = returns immediately (does not wait), WUNTRACED = report stops, WCONTINUED = report resumes
 	pid_t r = waitpid(pl->pid, &status, WNOHANG | WUNTRACED | WCONTINUED);
 	if (r == 0) { return; }
 	if (r == -1) {
@@ -24,6 +25,10 @@ void update_process_state(tProcess* pl) {
 		pl->status = T_STOPPED;
 		pl->signal = WSTOPSIG(status);
 	}
+	else if (WIFCONTINUED(status)) {
+		pl->status = T_ACTIVE;
+	}
+
 }
 void Cmd_jobs(int n, char *tr[], tProcessList *pl) {
 	tProcess p;
@@ -35,8 +40,5 @@ void Cmd_jobs(int n, char *tr[], tProcessList *pl) {
 		process_set(pl,i,p);
 		print_process(p);
 	}
-
-
-
 
 }
