@@ -1,4 +1,4 @@
-TARGET_EXEC := p2
+TARGET_EXEC := p3
 
 SRC_FILES := $(wildcard src/*.c)
 
