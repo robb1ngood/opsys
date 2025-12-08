@@ -126,6 +126,7 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("jobs", 	Cmd_jobs, 		n, tr, pl);
 	command("deljobs",  Cmd_deljobs, 	n, tr, pl);
 	command("uid",      Cmd_uid,       	n, tr);
+	command("exec",		Cmd_exec,		n, tr);
 	else Cmd_progspec(n, tr, pl);
 }
 

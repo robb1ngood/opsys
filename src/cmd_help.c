@@ -48,6 +48,7 @@ void Cmd_help(int n, char* tr[]) {
 	help("mem", 		"[-blocks|-funcs|-vars|-all|-pmap]", "Shows details of the process memory\n\t-blocks: memory blocks assigned\n\t-funcs: function addresses\n\t-vars: variable addresses\n\t-pmap: shows pmap command output\n\t-all: shows everything");
 
 	help("uid", 		"[-get|-set] [-l] [id]", "Manages process credentials\n\t-get: show credentials\n\t-set id: set effective credential\n\t-set -l id: set effective credential by login name");
+	help("exec",		"prog args.... [@pri]", "Executes, without creating a new process, the program 'prog' with arguments 'args'\n\t@pri: optional priority adjustment");
 	
 	else printf("%s not found\n", tr[1]);
 }
