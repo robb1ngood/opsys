@@ -46,7 +46,9 @@ void Cmd_help(int n, char* tr[]) {
 	help("recurse", 	"[n]", 				 "calls the recursive function n times");
 	help("shared", 		"[-free|-create|-delkey] cl [n]", 	 "manages shared memory of key cl\n\t-create cl n: Creates a block of shared memory with key cl and size n and attaches it to the process address space\n\tcl: Attaches a block of shared memory with key cl to the process address space\n\t-free cl: Detaches a block of shared memory of key cl\n\t-delkey cl: Removes de memory block of key cl from the system (without unmapping)");
 	help("mem", 		"[-blocks|-funcs|-vars|-all|-pmap]", "Shows details of the process memory\n\t-blocks: memory blocks assigned\n\t-funcs: function addresses\n\t-vars: variable addresses\n\t-pmap: shows pmap command output\n\t-all: shows everything");
-
+	help("showenv", "[-environ|-addr]", "Shows the process environment\n\t-environ: access through external variable environ\n\t-addr: shows addresses of envp and environ");
+	help("jobs", "", "Lists background processes launched from the shell\n\tShows PID, start time, priority, status and command");
+	help("deljobs", "[-term|-sig]", "Deletes processes from the background list\n\t-term: deletes processes that terminated normally\n\t-sig: deletes processes terminated by a signal");
 	help("uid", 		"[-get|-set] [-l] [id]", "Manages process credentials\n\t-get: show credentials\n\t-set id: set effective credential\n\t-set -l id: set effective credential by login name");
 	help("exec",		"prog args.... [@pri]", "Executes, without creating a new process, the program 'prog' with arguments 'args'\n\t@pri: optional priority adjustment");
 	

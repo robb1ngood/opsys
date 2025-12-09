@@ -121,14 +121,12 @@ void executeCommand(tCmd current, tFileList *fl, tCommandList *cl, tMemoryList *
 	command("read",      Cmd_read,		n, tr, fl);
 	command("write",     Cmd_write,		n, tr, fl);
 	command("recurse",   Cmd_recurse,	n, tr);
-	
-	command("uid",      Cmd_uid,       	n, tr);
+	command("showenv", Cmd_showenv, n, tr, envp);
 	command("envvar", 	Cmd_envvar, 	n, tr, envp);
-	command("showenv", 	Cmd_showenv, 	n, tr, envp);
-	command("fork",		Cmd_fork,		n, tr, pl);
-	command("exec",		Cmd_exec,		n, tr);
 	command("jobs", 	Cmd_jobs, 		n, tr, pl);
 	command("deljobs",  Cmd_deljobs, 	n, tr, pl);
+	command("uid",      Cmd_uid,       	n, tr);
+	command("exec",		Cmd_exec,		n, tr);
 	else Cmd_progspec(n, tr, pl);
 }
 
