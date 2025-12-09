@@ -47,7 +47,6 @@ void Cmd_envvar(int n, char *tr[], char **envp) {
 			strcat(aux, "=");
 			strcat(aux, tr[4]);
 			putenv(aux);
-			free(aux);
 		}
 		
 		else fprintf(stderr, "usage : envvar -change [-a|-e|-p] <var> <value>\n");
