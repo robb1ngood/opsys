@@ -32,8 +32,7 @@ void Cmd_progspec(int n, char *tr[], tProcessList *pl) {
 	//duplicate the calling process. This will become the child process later
 	pid_t pid;
 	char path[PATH_MAX];
-	getcwd(path, sizeof(path));
-	strcat(path, "/");
+	strcpy(path, "./");
 	strcat(path, tr[0]);
 	if ((pid = vfork()) == 0) {
 		setpriority(PRIO_PROCESS, 0, priority);
