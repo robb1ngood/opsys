@@ -52,6 +52,18 @@ void Cmd_exec(int n, char *tr[]) {
 
     execvp(argv_exec[0], argv_exec);
 
+    if (errno == ENOENT && strchr(argv_exec[0], '/') == NULL) {
+        char *original_name = argv_exec[0];
+        char *local_path = malloc(strlen(original_name) + 3);
+        
+        if (local_path) {
+            sprintf(local_path, "./%s", original_name);
+            argv_exec[0] = local_path;
+            execvp(argv_exec[0], argv_exec);
+            free(local_path);
+            argv_exec[0] = original_name;
+        }
+    }
     perror("exec");
     
     free(argv_exec);
