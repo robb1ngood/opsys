@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <sys/resource.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 void Cmd_progspec(int n, char *tr[], tProcessList *pl) {
 	char **aux = calloc(n + 1, sizeof(char *));
@@ -31,13 +32,14 @@ void Cmd_progspec(int n, char *tr[], tProcessList *pl) {
 	
 	//duplicate the calling process. This will become the child process later
 	pid_t pid;
-	char path[PATH_MAX];
-	strcpy(path, "./");
-	strcat(path, tr[0]);
+	char *path = malloc(strlen(tr[0]) + 3);
+	sprintf(path, "./%s", tr[0]);
 	if ((pid = vfork()) == 0) {
 		setpriority(PRIO_PROCESS, 0, priority);
-		execvp(path, aux);	//no need to free memory, execvp already does so
-		perror(path);		//if the execution failed we delete the child process
+		execvp(tr[0], aux);	//no need to free memory, execvp already does so
+		if (errno == ENOENT && strchr(tr[0], '/') == NULL)
+			execvp(path, aux);
+		perror(tr[0]);		//if the execution failed we delete the child process
 		exit(0);		
 	}
 	else {
@@ -46,5 +48,6 @@ void Cmd_progspec(int n, char *tr[], tProcessList *pl) {
 		else
 			waitpid(pid, NULL, 0);
 		free(aux);
+		free(path);
 	}
 }
